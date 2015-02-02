@@ -1,0 +1,6 @@
+.lolines textarea {height:5em;}
+.midlines textarea {height:7em;}
+.hilines textarea {height:15em;}
+.pageoverflow {overflow:auto;}
+.dndhelp {display:none;}
+.clearb {float:clear;};

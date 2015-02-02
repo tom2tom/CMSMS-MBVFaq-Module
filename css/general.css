@@ -1,0 +1,16 @@
+/* div containing a question answer */
+.faqanswer{}
+/* div containing an entire category, with all its questions */
+.faqcatblock{}
+/* span containing category-link */
+.faqcatlink{}
+/* for un-ordered list of question-categories */
+.faqcatlist{}
+/* div containing question text */
+.faqquestion{}
+/* span containing question-link */
+.faqlink{}
+/* for ordered list of questions within a category */
+.faqlist{}
+/* paragraph containing title */
+.faqtitle{font-weight:bold;}
