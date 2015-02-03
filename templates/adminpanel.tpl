@@ -113,3 +113,12 @@
 {$end_tab}
 
 {$tab_footers}
+
+{$plugins}
+{if isset($jsfuncs)}
+<script type="text/javascript">
+//<![CDATA[
+{foreach from=$jsfuncs item=func}{$func}{/foreach}
+//]]>
+</script>
+{/if}
