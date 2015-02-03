@@ -20,15 +20,15 @@ $(function() {
 
 		var allrows = $(droprow.parentNode).children();
 		var curr = droprow.rowIndex - 2;
-		var droporder = (curr < 0) ? 'null' : $(allrows[curr]).children('.id').html();
+		var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td > span.id').html();
 		curr++;
 		var dropcount = droprows.length;
 		while (dropcount > 0) {
-			droporder = droporder+','+$(allrows[curr]).children('.id').html();
+			droporder = droporder+','+$(allrows[curr]).find('> td > span.id').html();
 			curr++;
 			dropcount--;
 		}
-		droporder = droporder+','+$(allrows[curr]).children('.id').html(); //'target' may be 'null'
+		droporder = droporder+','+$(allrows[curr]).find('> td > span.id').html(); //'target' may be 'null'
 
 		var ajaxdata = (table.id=='items') ?
 			'|QDATA|'+droporder:
@@ -90,27 +90,27 @@ function confirm_delete_item()
  return false;
 }
 
-function select_all(b)
+function select_all_groups(b)
 {
  var st = $(b).attr('checked');
  if(! st) st = false;
  $('input[name="|ID|selgrps[]"][type="checkbox"]').attr('checked', st);
 }
 
-function sel_count()
+function selgrp_count()
 {
  var cb = $('input[name="|ID|selgrps[]"]:checked');
  return cb.length;
 }
 
-function confirm_count()
+function confirm_selgrp_count()
 {
- return (sel_count() > 0);
+ return (selgrp_count() > 0);
 }
 
-function confirm_delete()
+function confirm_delete_grp()
 {
- if (sel_count() > 0)
+ if (selgrp_count() > 0)
   return confirm('|CONF2|');
  return false;
 }
