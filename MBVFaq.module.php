@@ -139,28 +139,7 @@ class MBVFaq extends CMSModule
 
 	function GetHeaderHTML()
 	{
-		$pref = '<script type="text/javascript" src="'.$this->GetModuleURLPath().'/include/';
-		$suff = '"></script>'."\n";
-		$local = $pref.'jquery.tablednd.min.js'.$suff;
-//		$local = $pref.'jquery.tablednd.js'.$suff;
-
-		$fn = cms_join_path(dirname(__FILE__),'include','module_funcs.js');
-		$js = ''.@file_get_contents($fn);
-		if ($js)
-		{
-			//NOTE this setup must conform to related ajax-stuff in module_funcs.js
-			$id = 'm1_'; //moduleinterface.php constant
-			$url = $this->create_url($id,'moveitem','',array('droporder'=>''));
-			$offs = strpos($url,'?mact=');
-			$itemdatastr = str_replace('&amp;','&',substr($url,$offs+1));
-			$catdatastr = str_replace('moveitem','movecategory',$itemdatastr);
-			$conf1 = $this->Lang('itemsel_confirm');
-			$conf2 = $this->Lang('catsel_confirm');
-			$js = str_replace(array('|ID|','|QDATA|','|CDATA|','|CONF1|','|CONF2|'),
-				array($id,$itemdatastr,$catdatastr,$conf1,$conf2),$js);
-		}
-		return $local.$js.
-		'<link rel="stylesheet" type="text/css" href="'.$this->GetModuleURLPath().'/css/admin.css" />'."\n";
+		return '<link rel="stylesheet" type="text/css" href="'.$this->GetModuleURLPath().'/css/admin.css" />';
 	}
 
 	function SuppressAdminOutput(&$request)
