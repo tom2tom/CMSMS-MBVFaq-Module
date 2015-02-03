@@ -21,9 +21,9 @@ if (isset($params['delete']))
 elseif (isset($params['activate']))
 {
 	$qm = array();
-	foreach($params['selitems'] as $k=>$s)
+	foreach($params['selitems'] as $k=>$item_id)
 	{
-		$params['selitems'][$k] = (int)$s;
+		$params['selitems'][$k] = (int)$item_id;
 		$qm[] = '?';
 	}
 	$seps = implode(',',$qm);
