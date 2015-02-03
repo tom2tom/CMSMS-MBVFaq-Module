@@ -24,7 +24,7 @@ $lang['activateselitm']	= 'toggle activation of selected questions';
 $lang['active']			= 'Active';
 $lang['addcategory']	= 'Add new category';
 $lang['additem']		= 'Add new question';
-$lang['allusers']		= 'Everyone Authorised';
+//$lang['allusers']		= 'Everyone Authorised';
 $lang['answer']			= 'Answer';
 $lang['apply']			= 'Apply';
 $lang['cancel']			= 'Cancel';
@@ -37,14 +37,14 @@ $lang['created']		= 'Created';
 $lang['delete']			= 'Delete';
 $lang['deleteitem']		= 'delete question';
 $lang['deletecategory']	= 'delete category';
-$lang['deleteselcat']	= 'delete selected categories';
+$lang['deleteselgrp']	= 'delete selected categories';
 $lang['deleteselitm']	= 'delete selected questions';
 $lang['down']			= 'move down';
 $lang['edititem']		= 'edit question';
 $lang['error']			= 'Error!';
 $lang['export_filename'] = '%s-Export-%s.csv';
 $lang['export']			= 'Export';
-$lang['exportselcat']	= 'export selected categories';
+$lang['exportselgrp']	= 'export selected categories';
 $lang['exportselitm']	= 'export selected questions';
 $lang['false']			= 'no';
 $lang['order_number']	= 'Display Order';
@@ -66,6 +66,7 @@ $lang['long_answer']	= 'Long answer';
 $lang['long_question']	= 'Long question';
 $lang['no']				= 'No';
 $lang['nocategories']	= 'No category is recorded.';
+$lang['none']			= 'None';
 $lang['noitems']		= 'No question is recorded.';
 $lang['noowner']		= 'missing owner name';
 $lang['option_clear_cat'] = 'Delete questions in a category when the category itself is deleted';
@@ -112,7 +113,8 @@ $lang['help_regex']	= 'Specify a regular expression which the text of questions 
 $lang['help']				= '<h3>What Does It Do?</h3>
 <p>It manages and displays questions and corresponding answers. Any question and answer may have alternative short-form and long-form versions. Any category may be assigned to an authorized admin user.</p>
 <h3>How Do I Use It?</h3>
-<p>By placing a smarty tag <code>{cms_module module=\'MBVFaq\'}</code> in a page or template.</p>
+<p>Via the Content menu, add one or more questions/answers, and if relevant, one or more categories containing the questions.<br /><br />
+Place a smarty tag <code>{cms_module module=\'MBVFaq\'}</code> in a suitable page or template.</p>
 <p>You can apply styling, by using some or all of the following in a relevant stylesheet:
 <ul>
 <li>.faqanswer{}  /* div containing an answer */</li>
@@ -138,7 +140,7 @@ or, when displaying a single question,
 </ul></p>
 <p>For the latest version of the module, or to report a bug, visit the module\'s <a href="http://dev.cmsmadesimple.org/projects/faqsimple">forge-page</a>.</p>
 <h3>Copyright and License</h3>
-<p>Copyright &copy; 2011-2014 Tom Phane. All rights reserved.</p>
+<p>Copyright &copy; 2011-2015 Tom Phane. All rights reserved.</p>
 <p>This module has been released under version 3 of the <a href="http://www.gnu.org/licenses/licenses.html#AGPL">GNU Affero General Public License</a>. You must agree to this license before using the module.</p>
 ';
 ?>
