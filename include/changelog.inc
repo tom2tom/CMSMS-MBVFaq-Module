@@ -33,10 +33,11 @@
 <li>Bug-fixes: UI-related and smarty-related</li>
 </ul>
 </li>
-<li>Version 0.6.0 31 January 2015
+<li>Version 0.6.0 12 February 2015
 <ul>
 <li>Support multi-question [de]activation</li>
 <li>Minor template refinements</li>
+<li>Fix selection of category-owner</li>
 <li>Updated tablednd plugin</li>
 </ul>
 </li>
