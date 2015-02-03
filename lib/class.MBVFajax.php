@@ -14,11 +14,11 @@ class MBVFajax
 	content is editable */
 	function CreateQuestionsBody ($id,$returnid,&$mod,&$smarty)
 	{
-		$canadmin = $mod->_CheckAccess('admin');
+		$padm = $mod->_CheckAccess('admin');
 		$owned = $mod->GetPreference('owned_categories', false);
 		$funcs = new MBVFshared();
 		// get a simple list of available categories, ordered by fields category and vieworder
-		$categories = $funcs->GetCategories($mod,0,0,false,($canadmin || !$owned));
+		$categories = $funcs->GetCategories($mod,0,0,false,($padm || !$owned));
 		$wanted = implode (",", array_keys($categories));//no injection risk from categories keys array
 		$sql = "SELECT I.*, U.first_name, U.last_name FROM $mod->ItemTable I
 LEFT JOIN $mod->UserTable U ON I.owner = U.user_id
@@ -27,13 +27,16 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 		$rs = $mod->dbHandle->Execute($sql);
 		if ($rs)
 		{
-			$canmod = $canadmin;
-			if ($canmod)
-				$candel = true;
+			$pdev = $mod->CheckPermission('Modify Any Page');
+			if ($padm)
+			{
+				$pdel = true;
+				$pmod = true;
+			}
 			else
 			{
-				$candel = $mod->_CheckAccess('delete');
-				$canmod = $mod->_CheckAccess('modify');
+				$pdel = $mod->_CheckAccess('delete');
+				$pmod = $mod->_CheckAccess('modify');
 			}
 
 			//theme-object not accessible in this context, so create one
@@ -63,7 +66,7 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 				$iconopen = $theme->DisplayImage('icons/system/edit.gif', $mod->Lang('edititem'),'','','systemicon');
 			else
 				$iconopen = $theme->DisplayImage('icons/system/view.gif', $mod->Lang('viewitem'),'','','systemicon');
-			if ($candel)
+			if ($pdel)
 				$icondel = $theme->DisplayImage('icons/system/delete.gif', $mod->Lang('deleteitem'),'','','systemicon');
 
 			if ($mod->before111)
@@ -73,45 +76,52 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 
 			while ($row = $rs->FetchRow())
 			{
+				$thisid 			= (int)$row['item_id'];
 				$one = new stdClass();
-				$one->item_id		= $row['item_id'];
+				if($pdev)
+					$one->item_id	= $thisid;
+				$one->hidden = "<span class=\"id\" style=\"display:none;\">$thisid</span>";
 				$neat = $mod->ellipsize(strip_tags($row['short_question']), 40, 0.5);
-				if ($canmod)
-					$one->question	= $mod->CreateLink($id,'openitem',
-						$returnid, $neat, array('item_id'=>$row['item_id']));
+				if ($pmod)
+					$one->item		= $mod->CreateLink($id,'openitem',
+						$returnid,$neat,array('item_id'=>$thisid));
 				else
-					$one->question	= $neat;
-				$one->category		= $categories[$row['category_id']]->name;
-				$one->category_id	= $row['category_id'];
+					$one->item		= $neat;
+				$catid = (int)$row['category_id'];
+				$one->group			= $categories[$catid]->name;
 				$one->create_date	= $row['create_date'];
-				$one->modified_date	= $row['last_modified_date'];
-				$name = trim($row['first_name'].' '.$row['last_name']);
-				if ($name == '') $name = '<'.$mod->Lang('noowner').'>';
-				$one->ownername		= $name;
-				if ($canmod)
+				$one->modify_date	= $row['last_modified_date'];
+				if($padm || $owned)
 				{
+					$name = trim($row['first_name'].' '.$row['last_name']);
+					if ($name == '') $name = '<'.$mod->Lang('noowner').'>';
+					$one->ownername	= $name;
+				}
+				if ($pmod)
+				{
+					//$one->downlink = ; $one->uplink = ; NO NEED IF DND IS WORKING
 					if ($row['active']) // it's active so create a deactivate-link
-						$one->active = $mod->CreateLink($id,'toggleitem',$returnid, $iconyes,
-							array('item_id'=>$one->item_id,'active'=>true));
+						$one->active = $mod->CreateLink($id,'toggleitem',$returnid,$iconyes,
+							array('item_id'=>$thisid,'active'=>true));
 					else // it's inactive so create an activate-link
-						$one->active = $mod->CreateLink($id,'toggleitem',$returnid, $iconno,
-							array('item_id'=>$one->item_id,'active'=>false));
+						$one->active = $mod->CreateLink($id,'toggleitem',$returnid,$iconno,
+							array('item_id'=>$thisid,'active'=>false));
 				}
 				else
 					$one->active = ($row['active']) ? $iconyes : $iconno;
 
 				//edit or view
 				$one->editlink = $mod->CreateLink($id,'openitem',$returnid, $iconopen,
-					array('item_id'=>$one->item_id));
+					array('item_id'=>$thisid));
 
-				if ($candel)
-					$one->deletelink = $mod->CreateLink($id,'deleteitem',$returnid, $icondel,
-						array('item_id'=>$one->item_id),
-						$mod->Lang('item_confirm',$row['short_question']));
+				if ($pdel)
+					$one->deletelink = $mod->CreateLink($id,'deleteitem',$returnid,$icondel,
+						array('item_id'=>$thisid),
+						$mod->Lang('delitm_confirm',$row['short_question']));
 				else
 					$one->deletelink = '';
 
-				$one->selected = $mod->CreateInputCheckbox($id,'selitems[]',$one->item_id,-1,'class="pagecheckbox"');
+				$one->selected = $mod->CreateInputCheckbox($id,'selitems[]',$thisid,-1);
 
 				$items[] = $one;
 			}
@@ -120,8 +130,9 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 			if (count($items) > 0)
 			{
 				$smarty->assign('items',$items);
-//UNUSED in tempate	$smarty->assign('mod',$canmod);
-				$smarty->assign('del',$candel);
+				$smarty->assign('dev',$pdev);
+				$smarty->assign('del',$pdel);
+				$smarty->assign('own',$padm || $owned);
 				echo $mod->ProcessTemplate('questions.tpl');
 				return;
 			}
