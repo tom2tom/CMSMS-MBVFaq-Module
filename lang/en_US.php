@@ -14,10 +14,10 @@ $lang['uninstalled'] = 'uninstalled';
 $lang['upgraded'] = 'upgraded to version %s';
 
 //NOTE Any ' in these js-parsed strings must be double-escaped
-$lang['cat_confirm'] = 'Are you sure you want to delete category \\\'%s\\\'';
-$lang['catsel_confirm'] = 'Are you sure you want to delete selected categories?';
-$lang['item_confirm'] = 'Are you sure you want to delete this question:\n %s';
-$lang['itemsel_confirm'] = 'Are you sure you want to delete selected questions?';
+$lang['delgrp_confirm'] = 'Are you sure you want to delete category \\\'%s\\\'';
+$lang['delitm_confirm'] = 'Are you sure you want to delete this question:\n %s';
+$lang['delselgrp_confirm'] = 'Are you sure you want to delete selected categories?';
+$lang['delselitm_confirm'] = 'Are you sure you want to delete selected questions?';
 
 $lang['activate']		= 'Activate';
 $lang['activateselitm']	= 'toggle activation of selected questions';
@@ -42,6 +42,7 @@ $lang['deleteselitm']	= 'delete selected questions';
 $lang['down']			= 'move down';
 $lang['edititem']		= 'edit question';
 $lang['error']			= 'Error!';
+$lang['error_server']	= 'Server Communication Error';
 $lang['export_filename'] = '%s-Export-%s.csv';
 $lang['export']			= 'Export';
 $lang['exportselgrp']	= 'export selected categories';
