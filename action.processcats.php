@@ -36,31 +36,28 @@ if (isset($params['owner_ids']))
 	$owners = $params['owner_ids'];
 else
 	$owners = null;
-/* $params['selgrps'] array contains the category_ids of rows with
-selected checkboxes, but with keys that are no use here, so we get
-another array with keys matching those in $params['category_ids'] */
-$selected = array_intersect ($params['category_ids'], $params['selgrps']);
-
-foreach ($selected as $k => $category_id)
+	
+foreach ($params['selgrps'] as $k=>$category_id)
 {
-	$category_name = $names[$k];
-	if ($category_name != '')
+	$thisname = $names[$k];
+	if ($thisname != '')
 	{
-//deprecated PHP $category_name = $db->quote($category_name, get_magic_quotes_runtime());
+		$thisid = (int)$category_id;
+//deprecated PHP $thisname = $db->quote($thisname, get_magic_quotes_runtime());
 		switch ($tasktype)
 		{
 		case 1: //update
-			if($category_id > -1)
+			if($thisid > -1)
 			{
 				if ($owners != null)
 				{
 					$sql = "UPDATE $this->CatTable SET name=?, owner=? WHERE category_id=?";
-					$db->Execute($sql, array($category_name,$owners[$k],$category_id));
+					$db->Execute($sql, array($thisname,$owners[$k],$thisid));
 				}
 				else
 				{
 					$sql = "UPDATE $this->CatTable SET name=? WHERE category_id=?";
-					$db->Execute($sql, array($category_name,$category_id));
+					$db->Execute($sql, array($thisname,$thisid));
 				}
 			}
 			else //new category
@@ -69,21 +66,21 @@ foreach ($selected as $k => $category_id)
 				{
 					$sql = "INSERT INTO $this->CatTable (category_id, name, vieworder, owner) VALUES (?,?,?,?)";
 					$category_id = $db->GenID($this->CatTable.'_seq');
-					$db->Execute($sql, array($category_id,$category_name,$category_id,$owners[$k]));
+					$db->Execute($sql, array($thisid,$thisname,$thisid,$owners[$k]));
 				}
 				else
 				{
 					$sql = "INSERT INTO $this->CatTable (category_id, name, vieworder) VALUES (?,?,?)";
 					$category_id = $db->GenID($this->CatTable.'_seq');
-					$db->Execute($sql, array($category_id,$category_name,$category_id));
+					$db->Execute($sql, array($thisid,$thisname,$thisid));
 				}
 			}
 			break;
 		case 2: //delete
-			$this->_DeleteCategory($category_id);
+			$this->_DeleteCategory($thisid);
 			break;
 		case 3: //export
-			$data .= $csvfuncs->ListCategory($this, $category_id);
+			$data .= $csvfuncs->ListCategory($this,$thisid);
 			break;
 		}
 	}
