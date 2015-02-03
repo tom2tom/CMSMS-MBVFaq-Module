@@ -6,12 +6,12 @@
 <div style="overflow:auto;">
 	<table id="items" class="{if $mod}table_drag {/if}pagetable" style="border-collapse:collapse">
 		<thead><tr>
-			<th>{$idtext}</th>
+{if $dev}	<th>{$idtext}</th>{/if}
 			<th>{$itemtext}</th>
 			<th>{$grptext}</th>
 			<th>{$postdatetext}</th>
 			<th>{$changedatetext}</th>
-			<th>{$answerertext}</th>
+{if $itmown} <th>{$answerertext}</th>{/if}
 			<th class="pageicon">{$activetext}</th>
 {if $mod}	<th class="updown">{$movetext}</th>
 			<th class="pageicon">&nbsp;</th>{/if}
@@ -21,12 +21,12 @@
 		<tbody>
  {foreach from=$items item=entry} {cycle values='row1,row2' name='c1' assign='rowclass'}
 		<tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-			<td class="id">{$entry->id}</td>
-			<td>{$entry->item}</td>
+{if $dev}	<td>{$entry->id}</td>{/if}
+			<td>{$entry->hidden}{$entry->item}</td>
 			<td>{$entry->group}</td>
 			<td>{$entry->create_date}</td>
 			<td>{$entry->modify_date}</td>
-			<td>{$entry->ownername}</td>
+{if $itmown} <td>{$entry->ownername}</td>{/if}
 			<td>{$entry->active}</td>
 {if $mod}	<td class="updown">{$entry->downlink}{$entry->uplink}</td>
 			<td>{$entry->editlink}</td>{/if}
@@ -57,7 +57,7 @@
 <div style="overflow:auto;">
 	<table id="groups" class="{if $mod}table_drag {/if}pagetable" style="border-collapse:collapse">
 		<thead><tr>
-			<th>{$grpidtext}</th>
+{if $dev}	<th>{$grpidtext}</th>{/if}
 			<th>{$grptext}</th>
 {if $grpown}<th>{$ownertext}</th>{/if}
 {if $mod}	<th class="updown">{$movetext}</th>{/if}
@@ -67,7 +67,7 @@
 		<tbody>
  {foreach from=$grpitems item=entry} {cycle values='row1,row2' name='c2' assign='rowclass'}
 		<tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-			<td class="id">{$entry->id}</td>
+{if $dev}	<td>{$entry->id}</td>{/if}
 			<td>{$entry->hidden}{$entry->input_name}</td>
 {if $grpown}<td>{$entry->input_owner}</td>{/if}
 {if $mod}	<td class="updown">{$entry->downlink}{$entry->uplink}</td>{/if}
