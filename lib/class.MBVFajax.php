@@ -78,9 +78,7 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 			{
 				$thisid 			= (int)$row['item_id'];
 				$one = new stdClass();
-				if($pdev)
-					$one->item_id	= $thisid;
-				$one->hidden = "<span class=\"id\" style=\"display:none;\">$thisid</span>";
+				$one->item_id	= $thisid;
 				$neat = $mod->ellipsize(strip_tags($row['short_question']), 40, 0.5);
 				if ($pmod)
 					$one->item		= $mod->CreateLink($id,'openitem',

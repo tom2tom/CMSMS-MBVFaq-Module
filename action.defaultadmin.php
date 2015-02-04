@@ -112,9 +112,8 @@ if ($rs)
 	{
 		$thisid 			= (int)$row['item_id'];
 		$one = new stdClass();
-		if($pdev)
-			$one->id		= $thisid;
-		$one->hidden =		"<span class=\"id\" style=\"display:none;\">$thisid</span>";
+
+		$one->id		= $thisid; //may be hidden
 		$neat = $this->ellipsize(strip_tags($row['short_question']),40,0.5);
 		if ($mod)
 			$one->item		= $this->CreateLink($id,'openitem',$returnid,$neat,
@@ -319,9 +318,7 @@ ORDER BY U.last_name,U.first_name";
 		$thisid = (int)$row['category_id'];
 
 		$one = new stdClass();
-		if($pdev)
-			$one->id = $thisid;
-		$one->hidden = "<span class=\"id\" style=\"display:none;\">$thisid</span>";
+		$one->id = $thisid; //may be hidden
 
 		$one->order = $row['vieworder'];
 		if ($mod)
@@ -563,15 +560,15 @@ $(function() {
    var act = (table.id=='items') ? 'moveitem':'movecategory';
    var allrows = $(droprow.parentNode).children();
    var curr = droprow.rowIndex - 2;
-   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td > span.id').html();
+   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> .id').html();
    curr++;
    var dropcount = droprows.length;
    while (dropcount > 0){
-    droporder = droporder+','+$(allrows[curr]).find('> td > span.id').html();
+    droporder = droporder+','+$(allrows[curr]).find('> .id').html();
     curr++;
     dropcount--;
    }
-   droporder = droporder+','+$(allrows[curr]).find('> td > span.id').html(); //'target' may be 'null'
+   droporder = droporder+','+$(allrows[curr]).find('> .id').html(); //'target' may be 'null'
 
    $.ajax({
     type: 'POST',

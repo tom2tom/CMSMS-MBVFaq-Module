@@ -2,8 +2,8 @@
 Must be consistent with relevant part of adminpanel.tpl, except aspects managed by js *}
 {foreach from=$items item=entry} {cycle values='row1,row2' name='c1' assign='rowclass'}
  <tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-{if $dev} <td>{$entry->item_id}</td>{/if}
-  <td>{$entry->hidden}{$entry->item}</td>
+  <td{if $dev} class="id"{/if}>{if $dev}{$entry->item_id}{else}<span class="id" style="display:none;">{$entry->item_id}</span>{/if}</td>
+  <td>{$entry->item}</td>
   <td>{$entry->group}</td>
   <td>{$entry->create_date}</td>
   <td>{$entry->modify_date}</td>
