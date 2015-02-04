@@ -4,38 +4,44 @@
 {$startform1}
 {if $icount > 0}
 <div style="overflow:auto;">
-	<table id="items" class="{if $mod}table_drag {/if}pagetable" style="border-collapse:collapse">
-		<thead><tr>
-			<th>{if $dev}{$idtext}{else}&nbsp;{/if}</th>
-			<th>{$itemtext}</th>
-			<th>{$grptext}</th>
-			<th>{$postdatetext}</th>
-			<th>{$changedatetext}</th>
-{if $itmown} <th>{$answerertext}</th>{/if}
-			<th class="pageicon">{$activetext}</th>
-{if $mod}	<th class="updown">{$movetext}</th>
-			<th class="pageicon">&nbsp;</th>{/if}
-{if $del}	<th class="pageicon">&nbsp;</th>{/if}
-			<th class="checkbox" style="width:20px;">{if $icount > 1}{$selectall_items}{/if}</th>
-		</tr></thead>
-		<tbody>
+ <table id="items" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
+  <thead><tr>
+   <th{if !$dev} class="hideid"{/if}>{if $dev}{$idtext}{/if}</th>
+   <th>{$itemtext}</th>
+   <th>{$grptext}</th>
+   <th>{$postdatetext}</th>
+   <th>{$changedatetext}</th>
+{if $itmown}   <th>{$answerertext}</th>
+{/if}
+   <th class="pageicon">{$activetext}</th>
+{if $mod}   <th class="updown">{$movetext}</th>
+   <th class="pageicon">&nbsp;</th>
+{/if}
+{if $del}   <th class="pageicon">&nbsp;</th>
+{/if}
+   <th class="checkbox" style="width:20px;">{if $icount > 1}{$selectall_items}{/if}</th>
+  </tr></thead>
+  <tbody>
  {foreach from=$items item=entry} {cycle values='row1,row2' name='c1' assign='rowclass'}
-		<tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-            <td{if $dev} class="id"{/if}>{if $dev}{$entry->id}{else}<span class="id" style="display:none;">{$entry->id}</span>{/if}</td>
-			<td>{$entry->item}</td>
-			<td>{$entry->group}</td>
-			<td>{$entry->create_date}</td>
-			<td>{$entry->modify_date}</td>
-{if $itmown} <td>{$entry->ownername}</td>{/if}
-			<td>{$entry->active}</td>
-{if $mod}	<td class="updown">{$entry->downlink}{$entry->uplink}</td>
-			<td>{$entry->editlink}</td>{/if}
-{if $del}	<td>{$entry->deletelink}</td>{/if}
-			<td class="checkbox">{$entry->selected}</td>
-		</tr>
+  <tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
+   <td class="id{if !$dev} hideid{/if}">{$entry->id}</td>
+   <td>{$entry->item}</td>
+   <td>{$entry->group}</td>
+   <td>{$entry->create_date}</td>
+   <td>{$entry->modify_date}</td>
+{if $itmown}   <td>{$entry->ownername}</td>
+{/if}
+   <td>{$entry->active}</td>
+{if $mod}   <td class="updown">{$entry->downlink}{$entry->uplink}</td>
+   <td>{$entry->editlink}</td>
+{/if}
+{if $del}   <td>{$entry->deletelink}</td>
+{/if}
+   <td class="checkbox">{$entry->selected}</td>
+  </tr>
  {/foreach}
-		</tbody>
-	</table>
+  </tbody>
+ </table>
 {if $mod && $icount > 1}<p class="dndhelp">{$dndhelp}</p>{/if}
 </div>
 {else}
@@ -55,32 +61,38 @@
 {$startform2}
 {if $gcount > 0}
 <div style="overflow:auto;">
-	<table id="groups" class="{if $mod}table_drag {/if}pagetable" style="border-collapse:collapse">
-		<thead><tr>
-			<th>{if $dev}{$grpidtext}{else}&nbsp;{/if}</th>
-			<th>{$grptext}</th>
-{if $grpown}<th>{$ownertext}</th>{/if}
-{if $mod}	<th class="updown">{$movetext}</th>{/if}
-{if $del}	<th class="pageicon">&nbsp;</th>{/if}
-			<th class="checkbox" style="width:20px;">{if $gcount > 1}{$selectall_grps}{/if}</th>
-		</tr></thead>
-		<tbody>
+ <table id="groups" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
+  <thead><tr>
+   <th{if !$dev} class="hideid"{/if}>{if $dev}{$grpidtext}{/if}</th>
+   <th>{$grptext}</th>
+{if $grpown}   <th>{$ownertext}</th>
+{/if}
+{if $mod}   <th class="updown">{$movetext}</th>
+{/if}
+{if $del}   <th class="pageicon">&nbsp;</th>
+{/if}
+   <th class="checkbox" style="width:20px;">{if $gcount > 1}{$selectall_grps}{/if}</th>
+  </tr></thead>
+  <tbody>
  {foreach from=$grpitems item=entry} {cycle values='row1,row2' name='c2' assign='rowclass'}
-		<tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-            <td{if $dev} class="id"{/if}>{if $dev}{$entry->id}{else}<span class="id" style="display:none;">{$entry->id}</span>{/if}</td>
-			<td>{$entry->hidden}{$entry->input_name}</td>
-{if $grpown}<td>{$entry->input_owner}</td>{/if}
-{if $mod}	<td class="updown">{$entry->downlink}{$entry->uplink}</td>{/if}
-{if $del}	<td>{$entry->deletelink}</td>{/if}
-			<td class="checkbox">{$entry->selected}</td>
-		</tr>
+  <tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
+   <td class="id{if !$dev} hideid{/if}">{$entry->id}</td>
+   <td>{$entry->input_name}</td>
+{if $grpown}   <td>{$entry->input_owner}</td>
+{/if}
+{if $mod}    <td class="updown">{$entry->downlink}{$entry->uplink}</td>
+{/if}
+{if $del}   <td>{$entry->deletelink}</td>
+{/if}
+   <td class="checkbox">{$entry->selected}</td>
+  </tr>
  {/foreach}
-		</tbody>
-	</table>
+  </tbody>
+ </table>
 {if $mod && $gcount > 1}<p class="dndhelp">{$dndhelp}</p>{/if}
 </div>
 {else}
-	<p class="pageinput" style="margin:20px;">{$nogroups}</p>
+ <p class="pageinput" style="margin:20px;">{$nogroups}</p>
 {/if}
 <div class="pageoptions">
 {if $add}{$addgrplink}{/if}
