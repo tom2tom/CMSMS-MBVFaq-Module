@@ -91,6 +91,10 @@ case "0.4.2":
 	$this->SetPreference('short_question', $d);
 	$this->SetPreference('use_jquery', $e);
 	$this->SetPreference('ignore_click', $f);
+case "0.5.0":
+	//remove redundant file
+	$file = cms_join_path (dirname(__FILE__), 'include', 'module_funcs.js');
+	if(is_file($file)) unlink($file);
 }
 // put mention into the admin log
 $this->Audit(0, $this->Lang('fullname'), $this->Lang('upgraded',$newversion));
