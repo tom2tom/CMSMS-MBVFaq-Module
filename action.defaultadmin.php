@@ -376,7 +376,6 @@ if ($mod && $extracat)
 	$one = new stdClass();
 	
 	$one->id		= -1;
-	$one->hidden 	= "<span class=\"id\" style=\"display:none;\">-1</span>";
 	$one->order		= count($groups)+1;
 	$one->name		= '';
 	$one->input_name = $this->CreateInputText($id,'category_names[]','',40);
@@ -560,15 +559,15 @@ $(function() {
    var act = (table.id=='items') ? 'moveitem':'movecategory';
    var allrows = $(droprow.parentNode).children();
    var curr = droprow.rowIndex - 2;
-   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> .id').html();
+   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td.id:first').html();
    curr++;
    var dropcount = droprows.length;
    while (dropcount > 0){
-    droporder = droporder+','+$(allrows[curr]).find('> .id').html();
+    droporder = droporder+','+$(allrows[curr]).find('> td.id:first').html();
     curr++;
     dropcount--;
    }
-   droporder = droporder+','+$(allrows[curr]).find('> .id').html(); //'target' may be 'null'
+   droporder = droporder+','+$(allrows[curr]).find('> td.id:first').html(); //'target' may be 'null'
 
    $.ajax({
     type: 'POST',
