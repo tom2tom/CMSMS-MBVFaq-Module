@@ -41,10 +41,5 @@ $(function() {
   return false;
  });
 });
-
-
-
-
-
 //]]>
 </script>
