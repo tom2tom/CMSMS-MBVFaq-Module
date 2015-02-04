@@ -62,7 +62,7 @@ class MBVFaq extends CMSModule
 
 	function GetVersion()
 	{
-		return '0.6.0';
+		return '1.0';
 	}
 
 	function MinimumCMSVersion()
