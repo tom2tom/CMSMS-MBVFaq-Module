@@ -41,7 +41,7 @@ $lang['deleteselgrp']	= 'delete selected categories';
 $lang['deleteselitm']	= 'delete selected questions';
 $lang['down']			= 'move down';
 $lang['edititem']		= 'edit question';
-$lang['error']			= 'Error!';
+//$lang['error']			= 'Error';
 $lang['error_server']	= 'Server Communication Error';
 $lang['export_filename'] = '%s-Export-%s.csv';
 $lang['export']			= 'Export';
@@ -112,10 +112,15 @@ $lang['help_pattern'] = 'Specify a wildcarded pattern which the text of question
 $lang['help_regex']	= 'Specify a regular expression which the text of questions to be displayed must match, or, if the first character of the expression is \'!\', must not match';
 
 $lang['help']				= '<h3>What Does It Do?</h3>
-<p>It manages and displays questions and corresponding answers. Any question and answer may have alternative short-form and long-form versions. Any category may be assigned to an authorized admin user.</p>
+<p>It manages and displays questions and corresponding answers, individually and/or by category.
+Any question and answer may have alternative short-form and long-form versions.
+Any category may be assigned to an authorized admin user.</p>
 <h3>How Do I Use It?</h3>
-<p>Via the Content menu, add one or more questions/answers, and if relevant, one or more categories containing the questions.<br /><br />
-Place a smarty tag <code>{cms_module module=\'MBVFaq\'}</code> in a suitable page or template.</p>
+<p>In the CMSMS admin Content Menu, you should see a menu item called \'FAQ\'.
+Click on that. On the displayed page, there are (to the extent that you\'re suitably authorised)
+links and inputs by which you can inspect, add or change any question, or category of questions,
+or module setting.</p>
+<p>Display wanted content by placing a smarty tag <code>{cms_module module=\'MBVFaq\'}</code> in a suitable page or template.</p>
 <p>You can apply styling, by using some or all of the following in a relevant stylesheet:
 <ul>
 <li>.faqanswer{}  /* div containing an answer */</li>
