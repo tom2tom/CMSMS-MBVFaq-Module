@@ -3,4 +3,18 @@
 .hilines textarea {height:15em;}
 .pageoverflow {overflow:auto;}
 .dndhelp {display:none;}
-.clearb {float:clear;};
+.clearb {float:clear;}
+
+.pagetable td.hideid {
+ padding:0;
+ margin:0;
+ width:5px;
+ visibility:hidden;
+ overflow:hidden;
+}
+
+.pagetable th.hideid {
+ padding:0;
+ margin:0;
+ width:5px;
+}
