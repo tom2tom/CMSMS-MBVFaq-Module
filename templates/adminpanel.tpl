@@ -6,7 +6,7 @@
 <div style="overflow:auto;">
  <table id="items" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
   <thead><tr>
-   <th{if !$dev} class="hideid"{/if}>{if $dev}{$idtext}{/if}</th>
+   <th class="{$idclass}">{$idtext}</th>
    <th>{$itemtext}</th>
    <th>{$grptext}</th>
    <th>{$postdatetext}</th>
@@ -24,7 +24,7 @@
   <tbody>
  {foreach from=$items item=entry} {cycle values='row1,row2' name='c1' assign='rowclass'}
   <tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-   <td class="id{if !$dev} hideid{/if}">{$entry->id}</td>
+   <td class="{$idclass}">{$entry->id}</td>
    <td>{$entry->item}</td>
    <td>{$entry->group}</td>
    <td>{$entry->create_date}</td>
@@ -63,7 +63,7 @@
 <div style="overflow:auto;">
  <table id="groups" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
   <thead><tr>
-   <th{if !$dev} class="hideid"{/if}>{if $dev}{$grpidtext}{/if}</th>
+   <th class="{$idclass}">{$grpidtext}</th>
    <th>{$grptext}</th>
 {if $grpown}   <th>{$ownertext}</th>
 {/if}
@@ -76,7 +76,7 @@
   <tbody>
  {foreach from=$grpitems item=entry} {cycle values='row1,row2' name='c2' assign='rowclass'}
   <tr class="{$rowclass}" onmouseover="this.className='{$rowclass}hover';" onmouseout="this.className='{$rowclass}';">
-   <td class="id{if !$dev} hideid{/if}">{$entry->id}</td>
+   <td class="{$idclass}">{$entry->id}</td>
    <td>{$entry->input_name}</td>
 {if $grpown}   <td>{$entry->input_owner}</td>
 {/if}

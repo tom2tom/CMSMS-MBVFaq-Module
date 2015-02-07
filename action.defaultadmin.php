@@ -185,7 +185,7 @@ if ($icnt > 0)
 {
 	$smarty->assign('items',$items);
 	//$smarty->assign('numtext',$this->Lang('label_order'));
-	$smarty->assign('idtext',$this->Lang('label_id'));
+	$smarty->assign('idtext',($pdev) ? $this->Lang('label_id') : '');
 	$smarty->assign('itemtext',$this->Lang('item'));
 	$smarty->assign('grptext',$this->Lang('category'));
 	$smarty->assign('postdatetext',$this->Lang('created'));
@@ -244,7 +244,10 @@ function confirm_delete_item()
 EOS;
 }
 else
+{
+	$smarty->assign('idtext','');
 	$smarty->assign('noitems',$this->Lang('noitems'));
+}
 
 //CATEGORIES TAB
 $smarty->assign('start_grps_tab',$this->StartTab('groups'));
@@ -393,7 +396,7 @@ $smarty->assign('gcount',$gcnt);
 if ($gcnt > 0)
 {
 	$smarty->assign('grpitems',$groups);
-	$smarty->assign('grpidtext',$this->Lang('label_id'));
+	$smarty->assign('grpidtext',($pdev) ? $this->Lang('label_id') : '');
 	$smarty->assign('grptext',$this->Lang('category'));
 	$smarty->assign('ownertext',$this->Lang('owner'));
 	if ($gcnt > 1)
@@ -448,7 +451,10 @@ function confirm_delete_grp()
 EOS;
 }
 else
+{
+	$smarty->assign('grpidtext','');
 	$smarty->assign('nogroups',$this->Lang('nocategories'));
+}
 
 if ($padd)
 {
@@ -518,6 +524,9 @@ else
 	$smarty->assign('nopermission',$this->Lang('accessdenied3'));
 }
 
+$idc = ($pdev) ? 'seeid' : 'hideid';
+$smarty->assign('idclass',$idc);
+
 if($icnt > 0 || $gcnt > 0)
 {
 	$t = $this->Lang('error_server');
@@ -559,15 +568,15 @@ $(function() {
    var act = (table.id=='items') ? 'moveitem':'movecategory';
    var allrows = $(droprow.parentNode).children();
    var curr = droprow.rowIndex - 2;
-   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td.id:first').html();
+   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td.{$idc}:first').html();
    curr++;
    var dropcount = droprows.length;
    while (dropcount > 0){
-    droporder = droporder+','+$(allrows[curr]).find('> td.id:first').html();
+    droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html();
     curr++;
     dropcount--;
    }
-   droporder = droporder+','+$(allrows[curr]).find('> td.id:first').html(); //'target' may be 'null'
+   droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html(); //'target' may be 'null'
 
    $.ajax({
     type: 'POST',

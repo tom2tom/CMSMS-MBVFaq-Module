@@ -128,7 +128,7 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 			if (count($items) > 0)
 			{
 				$smarty->assign('items',$items);
-				$smarty->assign('dev',$pdev);
+				$smarty->assign('idclass',($pdev)?'seeid':'hideid');
 				$smarty->assign('del',$pdel);
 				$smarty->assign('own',$padm || $owned);
 				echo $mod->ProcessTemplate('questions.tpl');
