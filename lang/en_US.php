@@ -111,20 +111,21 @@ $lang['help_faq_id'] = 'An alternate name for the \'faq\' parameter';
 $lang['help_pattern'] = 'Specify a wildcarded pattern which the text of questions to be displayed must match, or, if the first character of the pattern is \'!\', must not match';
 $lang['help_regex']	= 'Specify a regular expression which the text of questions to be displayed must match, or, if the first character of the expression is \'!\', must not match';
 
-$lang['help']				= '<h3>What Does It Do?</h3>
+$lang['help']			= <<<EOS
+<h3>What Does It Do?</h3>
 <p>It manages and displays questions and corresponding answers, individually and/or by category.
 Any question and answer may have alternative short-form and long-form versions.
 Any category may be assigned to an authorized admin user.</p>
 <h3>How Do I Use It?</h3>
-<p>In the CMSMS admin Content Menu, you should see a menu item called \'FAQ\'.
-Click on that. On the displayed page, there are (to the extent that you\'re suitably authorised)
+<p>In the CMSMS admin Content Menu, you should see a menu item called 'FAQ'.
+Click on that. On the displayed page, there are (to the extent that you're suitably authorised)
 links and inputs by which you can inspect, add or change any question, or category of questions,
 or module setting.</p>
-<p>Display wanted content by placing a smarty tag <code>{cms_module module=\'MBVFaq\'}</code> in a suitable page or template.</p>
+<p>Display wanted content by placing a smarty tag <code>{cms_module module='MBVFaq'}</code> in a suitable page or template.</p>
 <p>You can apply styling, by using some or all of the following in a relevant stylesheet:
 <ul>
 <li>.faqanswer{}  /* div containing an answer */</li>
-<li>.faqcatblock{}/* div containing an entire category, with all its Q\'s and A\'s */</li>
+<li>.faqcatblock{}/* div containing an entire category, with all its Q's and A's */</li>
 <li>.faqcatlink{} /* span containing category-link */</li>
 <li>.faqcatlist{} /* for ordered list of categories */</li>
 <li>.faqlink{}    /* span containing question-link */</li>
@@ -144,9 +145,9 @@ or, when displaying a single question,
 <li>discussion may be found in the <a href="http://forum.cmsmadesimple.org">CMS Made Simple Forums</a>; or</li>
 <li>you may have some success emailing the author directly.</li>
 </ul></p>
-<p>For the latest version of the module, or to report a bug, visit the module\'s <a href="http://dev.cmsmadesimple.org/projects/faqsimple">forge-page</a>.</p>
+<p>For the latest version of the module, or to report a bug, visit the module's <a href="http://dev.cmsmadesimple.org/projects/faqsimple">forge-page</a>.</p>
 <h3>Copyright and License</h3>
 <p>Copyright &copy; 2011-2015 Tom Phane. All rights reserved.</p>
 <p>This module has been released under version 3 of the <a href="http://www.gnu.org/licenses/licenses.html#AGPL">GNU Affero General Public License</a>. You must agree to this license before using the module.</p>
-';
+EOS;
 ?>
