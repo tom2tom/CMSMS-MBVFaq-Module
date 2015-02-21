@@ -33,7 +33,7 @@
 <li>Bug-fixes: UI-related and smarty-related</li>
 </ul>
 </li>
-<li>Version 1.0 12 February 2015
+<li>Version 1.0 21 February 2015
 <ul>
 <li>Support multi-question [de]activation</li>
 <li>Other minor UI refinements</li>
