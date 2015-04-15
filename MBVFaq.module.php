@@ -221,7 +221,10 @@ class MBVFaq extends CMSModule
 		/* register 'routes' to use for pretty url parsing
 		these regexes translate url-parameter(s) to $param[](s) be supplied
 		to the specified actions (default calls ->DisplayModuleOutput())
-		so the routes need to conform to parameter-usage in handler-func(s) */
+		so the routes need to conform to parameter-usage in handler-func(s)
+		(?P<name>regex) captures the text matched by "regex" into the group "name",
+		which can contain letters and numbers but must start with a letter.
+		*/
 		// for showing the contents of a specific category
 		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/cat(egory)?(?P<cat>.*?)\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
 		// for showing all the details for a specific question
