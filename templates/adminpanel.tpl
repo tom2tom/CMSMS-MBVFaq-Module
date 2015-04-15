@@ -1,10 +1,10 @@
-{if isset($message) && $message != ''}{$message}<br />{/if}
+{if !empty($message)}{$message}<br />{/if}
 {$tab_headers}
 {$start_items_tab}
 {$startform1}
 {if $icount > 0}
 <div style="overflow:auto;">
- <table id="items" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
+ <table id="items" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse;">
   <thead><tr>
    <th class="{$idclass}">{$idtext}</th>
    <th>{$itemtext}</th>
