@@ -96,7 +96,5 @@ case "0.5.0":
 	$file = cms_join_path (dirname(__FILE__), 'include', 'module_funcs.js');
 	if(is_file($file)) unlink($file);
 }
-// put mention into the admin log
-$this->Audit(0, $this->Lang('fullname'), $this->Lang('upgraded',$newversion));
 
 ?>

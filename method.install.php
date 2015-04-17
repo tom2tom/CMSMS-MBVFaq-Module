@@ -68,7 +68,4 @@ $this->SetPreference('short_question', true);	//front-end display short question
 $this->SetPreference('use_jquery',true);		//add custom jquery code to frontend page, for handling clicks
 $this->SetPreference('ignore_click', true);		//don't process front-end link-clicks (e.g. when using js to process them)
 
-// put mention into the admin log
-$this->Audit(0, $this->Lang('fullname'), $this->Lang('installed',$this->GetVersion()));
-
 ?>

@@ -23,7 +23,5 @@ $this->RemovePermission($this->PermDelName);
 $this->RemovePermission($this->PermSeeName);
 // remove all preferences
 $this->RemovePreference();
-// put mention into the admin log
-$this->Audit(0, $this->Lang('fullname'), $this->Lang('uninstalled'));
 
 ?>
