@@ -1,20 +1,19 @@
 <?php
 #------------------------------------------------------------------------
-# Module: MBVFaq - a simple FAQ handling module for CMS Made Simple
-# Mostly copyright (C) 2011-2012 Tom Phane <@>
+# Module: MBVFaq - a FAQ handling module for CMS Made Simple
+# Mostly copyright (C) 2011-2015 Tom Phane <@>
 # Derived from beta release, copyright (C) 2005 Martin B. Vestergaard (mbvdk) <mbv@nospam.dk>
-# Version: 0.5.0
 # This project's forge-page is: http://dev.cmsmadesimple.org/projects/faqsimple
 #
 # This module is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation; either version 3 of the License, or (at your option) any later
-# version.
+# the terms of the GNU Affero General Public License as published by the Free
+# Software Foundation; either version 3 of the License, or (at your option)
+# any later version.
 #
 # This module is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License (www.gnu.org/licenses/licenses.html#GPL)
+# GNU Affero General Public License (www.gnu.org/licenses/licenses.html#AGPL)
 # for more details
 #-----------------------------------------------------------------------
 
