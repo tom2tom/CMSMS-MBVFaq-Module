@@ -62,7 +62,7 @@ class MBVFaq extends CMSModule
 
 	function GetVersion()
 	{
-		return '1.0';
+		return '1.0.1';
 	}
 
 	function MinimumCMSVersion()
@@ -235,7 +235,7 @@ class MBVFaq extends CMSModule
 
 	/**
 	InitializeAdmin:
-	Partial setup for 1.10
+	Partial setup for 1.10+
 	*/
 	function InitializeAdmin()
 	{
