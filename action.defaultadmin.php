@@ -30,7 +30,7 @@ $smarty->assign('add',$padd);
 $smarty->assign('del',$pdel);
 $smarty->assign('mod',$mod); //not $pmod
 
-$theme = ($this->before20) ? cmsms()->variables['admintheme']:
+$theme = ($this->before20) ? cmsms()->get_variable('admintheme'):
 	cms_utils::get_theme_object();
 $iconyes = $theme->DisplayImage('icons/system/true.gif',$this->Lang('true'),'','','systemicon');
 $iconno = $theme->DisplayImage('icons/system/false.gif',$this->Lang('false'),'','','systemicon');
