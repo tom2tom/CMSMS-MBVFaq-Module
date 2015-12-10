@@ -32,12 +32,13 @@ class MBVFaq extends CMSModule
 	protected $PermDelName = 'MBVFaq Delete';
 	protected $PermSeeName = 'MBVFaq View';
 	public $before111;
+	public $before20;
 
 	function __construct()
 	{
 		parent::__construct();
 
-		$this->RegisterModulePlugin();
+		$this->RegisterModulePlugin(TRUE);
 
 		$this->dbHandle = cmsms()->GetDb();
 		$pre = cms_db_prefix();
@@ -46,7 +47,8 @@ class MBVFaq extends CMSModule
 		$this->UserTable = $pre.'users';
 
 		global $CMS_VERSION;
-		$this->before111 = (version_compare ($CMS_VERSION, '1.11') < 0);
+		$this->before111 = (version_compare ($CMS_VERSION,'1.11') < 0);
+		$this->before20 = (version_compare ($CMS_VERSION,'2.0') < 0);
 	}
 
 	function GetName()
@@ -69,11 +71,11 @@ class MBVFaq extends CMSModule
 		return '1.9';
 	}
 
-	function MaximumCMSVersion()
+/*	function MaximumCMSVersion()
 	{
 		return '1.19.99';
 	}
-
+*/
 	function GetHelp()
 	{
 		return $this->Lang('help');
