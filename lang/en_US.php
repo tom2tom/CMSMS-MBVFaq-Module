@@ -121,7 +121,7 @@ Any category may be assigned to an authorized admin user.</p>
 Click on that. On the displayed page, there are (to the extent that you're suitably authorised)
 links and inputs by which you can inspect, add or change any question, or category of questions,
 or module setting.</p>
-<p>Display wanted content by placing a smarty tag <code>{cms_module module='MBVFaq'}</code> in a suitable page or template.</p>
+<p>Display wanted content by placing a smarty tag <code>{MBVFaq}</code> in a suitable page or template.</p>
 <p>You can apply styling, by using some or all of the following in a relevant stylesheet:
 <ul>
 <li>.faqanswer{}  /* div containing an answer */</li>
