@@ -1,5 +1,3 @@
-<script type="text/javascript">
-//<![CDATA[
 jQuery.fn.scrollMinimal = function(smooth) {
  var cTop = this.offset().top;
  var cHeight = this.outerHeight(true);
@@ -20,8 +18,7 @@ jQuery.fn.scrollMinimal = function(smooth) {
   }
  }
 };
-
-$(function() {
+$(document).ready(function() {
  $('.faqlink a').click(function() {
   var blk=$(this).parent().next();
   var dis=(blk.css('display')=='none')?'block':'none';
@@ -41,5 +38,3 @@ $(function() {
   return false;
  });
 });
-//]]>
-</script>

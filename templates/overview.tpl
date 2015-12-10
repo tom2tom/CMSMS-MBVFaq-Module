@@ -25,4 +25,8 @@ do not rename classes faqcatlink, faqcatblock, faqlink, faqanswer (js needs them
 {else}
 {$noitems}
 {/if}
+<script type="text/javascript">
+//<![CDATA[
 {$jquery}
+//]]>
+</script>
