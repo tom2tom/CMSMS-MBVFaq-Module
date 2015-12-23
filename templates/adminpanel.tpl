@@ -1,5 +1,5 @@
 {if !empty($message)}{$message}<br />{/if}
-{$tab_headers}
+{$tabs_header}
 {$start_items_tab}
 {$startform1}
 {if $icount > 0}
@@ -124,9 +124,9 @@
 {/if}
 {$end_tab}
 
-{$tab_footers}
+{$tabs_footer}
 
-{$plugins}
+{$jsincs}
 {if isset($jsfuncs)}
 <script type="text/javascript">
 //<![CDATA[

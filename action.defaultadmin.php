@@ -61,13 +61,13 @@ else
 $seetab1 = ($showtab==1);
 $seetab2 = ($showtab==2);
 
-$smarty->assign('tab_headers',$this->StartTabHeaders().
+$smarty->assign('tabs_header',$this->StartTabHeaders().
  $this->SetTabHeader('items',$this->Lang('items')).
  $this->SetTabHeader('groups',$this->Lang('categories'),$seetab1).
  $this->SetTabHeader('settings',$this->Lang('settings'),$seetab2).
  $this->EndTabHeaders().$this->StartTabContent());
-$smarty->assign('tab_footers',$this->EndTabContent());
-$smarty->assign('end_tab',$this->EndTab());
+$smarty->assign('tabs_footer',$this->EndTabContent());
+$smarty->assign('end_tab',$this->EndTab()); //on CMSMS 2+, MUST be after EndTabContent()
 
 //QUESTIONS TAB
 $smarty->assign('startform1',$this->CreateFormStart($id,'processitems',$returnid));
@@ -601,7 +601,7 @@ $(function() {
 });
 
 EOS;
-	$smarty->assign('plugins',
+	$smarty->assign('jsincs',
 		'<script type="text/javascript" src="'.$this->GetModuleURLPath().'/include/jquery.tablednd.min.js"></script>');
 	$smarty->assign('jsfuncs',$jsfuncs);
 }
