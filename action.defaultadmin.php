@@ -6,8 +6,6 @@
 # See file MBVFaq.module.php for full details of copyright,licence,etc.
 #----------------------------------------------------------------------
 
-$pdev = $this->CheckPermission('Modify Any Page');
-
 $padm = $this->_CheckAccess('admin');
 if ($padm)
 {
@@ -21,14 +19,16 @@ else
 	$pdel = $this->_CheckAccess('delete');
 	$pmod = $this->_CheckAccess('modify');
 }
+if(!($padm || $padd || $pdel || $pmod)) exit;
 
 $mod = $padm || $pmod;
+$pdev = $this->CheckPermission('Modify Any Page');
 
-$smarty->assign('dev',$pdev);
 $smarty->assign('adm',$padm);
 $smarty->assign('add',$padd);
 $smarty->assign('del',$pdel);
 $smarty->assign('mod',$mod); //not $pmod
+$smarty->assign('dev',$pdev);
 
 $theme = ($this->before20) ? cmsms()->get_variable('admintheme'):
 	cms_utils::get_theme_object();
@@ -178,7 +178,7 @@ if ($rs)
 }
 
 if ($mod)
-	$smarty->assign('dndhelp',$this->Lang('help_dnd'));
+	$smarty->assign('dndhelp',$this->Lang('help_dnd')); //might be for items or groups or neither
 
 $icnt = count($items);
 $smarty->assign('icount',$icnt);
@@ -194,7 +194,7 @@ if ($icnt > 0)
 	if($showby)
 		$smarty->assign('answerertext',$this->Lang('label_answerer'));
 	$smarty->assign('activetext',$this->Lang('active'));
-	if($icnt > 1)
+	if ($icnt > 1)
 		$smarty->assign('selectall_items',
 			$this->CreateInputCheckbox($id,'item',true,false,'onclick="select_all_items(this)"'));
 	$smarty->assign('exportbtn1',
@@ -216,25 +216,21 @@ if ($icnt > 0)
 
 	$t = $this->Lang('delselitm_confirm');
 	$jsfuncs[] = <<< EOS
-
 function select_all_items(b)
 {
  var st = $(b).attr('checked');
  if(! st) st = false;
  $('input[name="{$id}selitems[]"][type="checkbox"]').attr('checked', st);
 }
-
 function selitm_count()
 {
  var cb = $('input[name="{$id}selitems[]"]:checked');
  return cb.length;
 }
-
 function confirm_selitm_count()
 {
  return (selitm_count() > 0);
 }
-
 function confirm_delete_item()
 {
  if (selitm_count() > 0)
@@ -284,7 +280,7 @@ if ($rs)
 	{
 		//find all valid owners
 		$owners = array('&lt;'.$this->Lang('none').'&gt;' => 0);
-		//NOTE cmsms function check_permission() is buggy,always returns
+		//NOTE cmsms function check_permission() is buggy, always returns
 		//false for everyone other than the current user, so we replicate
 		//its backend operation here
 		$pref = cms_db_prefix();
@@ -423,25 +419,21 @@ if ($gcnt > 0)
 			
 	$t = $this->Lang('delselgrp_confirm');
 	$jsfuncs[] = <<< EOS
-
 function select_all_groups(b)
 {
  var st = $(b).attr('checked');
  if(! st) st = false;
  $('input[name="{$id}selgrps[]"][type="checkbox"]').attr('checked', st);
 }
-
 function selgrp_count()
 {
  var cb = $('input[name="{$id}selgrps[]"]:checked');
  return cb.length;
 }
-
 function confirm_selgrp_count()
 {
  return (selgrp_count() > 0);
 }
-
 function confirm_delete_grp()
 {
  if (selgrp_count() > 0)
@@ -528,7 +520,7 @@ else
 $idc = ($pdev) ? 'seeid' : 'hideid';
 $smarty->assign('idclass',$idc);
 
-if($icnt > 0 || $gcnt > 0)
+if ($icnt > 0 || $gcnt > 0)
 {
 	$t = $this->Lang('error_server');
 	$u = $this->create_url($id,'|X|','',array('droporder'=>''));
@@ -536,7 +528,6 @@ if($icnt > 0 || $gcnt > 0)
 	$u = str_replace('&amp;','&',substr($u,$offs+1));
 	$up = explode('|X|',$u);
 	$jsfuncs[] = <<< EOS
-
 function dropresponse(data,status)
 {
  if (status=='success') {
@@ -547,7 +538,6 @@ function dropresponse(data,status)
   $('#page_tabs').prepend('<p style="font-weight:bold;color:red;">{$t}!</p><br />');
  }
 }
-	
 $(function() {
  $('.table_drag').tableDnD({
   onDragClass: 'row1hover',
