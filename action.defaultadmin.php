@@ -285,10 +285,10 @@ if ($rs)
 		//its backend operation here
 		$pref = cms_db_prefix();
 		$sql = "SELECT DISTINCT U.user_id,U.username,U.first_name,U.last_name FROM $this->UserTable U
-INNER JOIN ".$pref."user_groups UG ON U.user_id = UG.user_id
-INNER JOIN ".$pref."group_perms GP ON GP.group_id = UG.group_id
-INNER JOIN ".$pref."permissions P ON P.permission_id = GP.permission_id
-INNER JOIN ".$pref."groups GR ON GR.group_id = UG.group_id
+JOIN ".$pref."user_groups UG ON U.user_id = UG.user_id
+JOIN ".$pref."group_perms GP ON GP.group_id = UG.group_id
+JOIN ".$pref."permissions P ON P.permission_id = GP.permission_id
+JOIN ".$pref."groups GR ON GR.group_id = UG.group_id
 WHERE ";
 		if (!$allowners)
 			$sql .= "U.user_id=$uid AND "; //no injection risk

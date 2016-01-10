@@ -126,21 +126,18 @@ class MBVFaq extends CMSModule
 		return $this->Lang('moddescription');
 	}
 
-	function AdminStyle()
-	{
-		$fn = cms_join_path(dirname(__FILE__),'css','admin.css');
-		$output = ''.@file_get_contents($fn);
-		return $output;
-	}
-
 	function VisibleToAdminUser()
 	{
         return $this->_CheckAccess();
 	}
 
+/*	function AdminStyle()
+	{
+	}
+*/
 	function GetHeaderHTML()
 	{
-		return '<link rel="stylesheet" type="text/css" href="'.$this->GetModuleURLPath().'/css/admin.css" />';
+		return '<link rel="stylesheet" type="text/css" id="adminstyler" href="'.$this->GetModuleURLPath().'/css/admin.css" />';
 	}
 
 	function SuppressAdminOutput(&$request)
