@@ -191,6 +191,65 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 		}
 		return $str;
 	}
+
+	/**
+	ProcessTemplate:
+	@mod: reference to current MBVFaq module object
+	@tplname: template identifier
+	@tplvars: associative array of template variables
+	@cache: optional boolean, default TRUE
+	Returns: string, processed template
+	*/
+	function ProcessTemplate(&$mod,$tplname,$tplvars,$cache=TRUE)
+	{
+		global $smarty;
+		if($mod->before20)
+		{
+			$smarty->assign($tplvars);
+			echo $mod->ProcessTemplate($tplname);
+		}
+		else
+		{
+			if($cache)
+			{
+				$cache_id = md5('smsg'.$tplname.serialize(array_keys($tplvars)));
+				$lang = CmsNlsOperations::get_current_language();
+				$compile_id = md5('smsg'.$tplname.$lang);
+				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname),$cache_id,compile_id,$smarty);
+				if(!$tpl->isCached())
+					$tpl->assign($tplvars);
+			}
+			else
+			{
+				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname),NULL,NULL,$smarty,$tplvars);
+			}
+			$tpl->display();
+		}
+	}
+
+	/**
+	ProcessTemplateFromData:
+	@mod: reference to current MBVFaq module object
+	@data: string
+	@tplvars: associative array of template variables
+	No cacheing.
+	Returns: string, processed template
+	*/
+	function ProcessTemplateFromData(&$mod,$data,$tplvars)
+	{
+		global $smarty;
+		if($mod->before20)
+		{
+			$smarty->assign($tplvars);
+			return $mod->ProcessTemplateFromData($data);
+		}
+		else
+		{
+			$tpl = $smarty->CreateTemplate('eval:'.$data,NULL,NULL,$smarty,$tplvars);
+			return $tpl->fetch();
+		}
+	}
+
 }
 
 ?>
