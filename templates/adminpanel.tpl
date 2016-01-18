@@ -3,7 +3,7 @@
 {$start_items_tab}
 {$startform1}
 {if $icount > 0}
-<div style="overflow:auto;">
+<div style="overflow:auto;display:inline-block;">
  <table id="items" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse;">
   <thead><tr>
    <th class="{$idclass}">{$idtext}</th>
@@ -43,7 +43,6 @@
   </tbody>
  </table>
 {if $mod && $icount > 1}<p class="dndhelp">{$dndhelp}</p>{/if}
-</div>
 {else}
  <p class="pageinput" style="margin:20px;">{$noitems}</p>
 {/if}
@@ -54,13 +53,14 @@
  <div class="clearb"></div>
 {/if}
 </div>
+</div>
 {$endform}
 {$end_tab}
 
 {$start_grps_tab}
 {$startform2}
 {if $gcount > 0}
-<div style="overflow:auto;">
+<div style="overflow:auto;display:inline-block;">
  <table id="groups" class="pagetable{if $mod} table_drag{/if}" style="border-collapse:collapse">
   <thead><tr>
    <th class="{$idclass}">{$grpidtext}</th>
@@ -90,7 +90,6 @@
   </tbody>
  </table>
 {if $mod && $gcount > 1}<p class="dndhelp">{$dndhelp}</p>{/if}
-</div>
 {else}
  <p class="pageinput" style="margin:20px;">{$nogroups}</p>
 {/if}
@@ -103,21 +102,22 @@
 <div class="clearb"></div>
 {/if}
 </div>
+</div>
 {$endform}
 {$end_tab}
 
 {$start_settings_tab}
 {if $adm}
 {$startform3}
-<div style="margin:20px;overflow:auto;">
+<div style="margin:20px;overflow:auto;display:inline-block;">
 {foreach from=$settings item=entry name=opts}
 {$entry->input}  {$entry->title}<br />{if !$smarty.foreach.opts.last}<br />{/if}
 {/foreach}
-</div>
-<div style="margin:0;float:right;text-align:right">
+<div style="margin-top:1em;float:right;">
 {$submitbtn3}{$cancel}
 </div>
 <div class="clearb"></div>
+</div>
 {$endform}
 {else}
 <p class="pageinput" style="margin:20px;">{$nopermission}</p>
