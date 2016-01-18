@@ -1,7 +1,7 @@
 <?php
 #------------------------------------------------------------------------
 # Module: MBVFaq - a FAQ handling module for CMS Made Simple
-# Mostly copyright (C) 2011-2015 Tom Phane <@>
+# Mostly copyright (C) 2011-2016 Tom Phane <@>
 # Derived from beta release, copyright (C) 2005 Martin B. Vestergaard (mbvdk) <mbv@nospam.dk>
 # This project's forge-page is: http://dev.cmsmadesimple.org/projects/faqsimple
 #
@@ -17,9 +17,6 @@
 # for more details
 #-----------------------------------------------------------------------
 
-/**
-Class declaration
-*/
 class MBVFaq extends CMSModule
 {
 	public $dbHandle;
@@ -73,7 +70,6 @@ class MBVFaq extends CMSModule
 
 /*	function MaximumCMSVersion()
 	{
-		return '1.19.99';
 	}
 */
 	function GetHelp()
@@ -107,13 +103,12 @@ class MBVFaq extends CMSModule
 		return true;
 	}
 
-	/**
-	LazyLoadAdmin:
+	/*
 	For 1.10+
 	*/
 	function LazyLoadAdmin()
 	{
-		return false; //need immediately, for admin menu
+		return true;
 	}
 
 	function GetAdminSection()
@@ -159,8 +154,7 @@ class MBVFaq extends CMSModule
 		return array();
 	}
 
-	/**
-	AllowSmartyCaching:
+	/*
 	For 1.11+
 	*/
 	function AllowSmartyCaching()
@@ -168,8 +162,7 @@ class MBVFaq extends CMSModule
 		return true;
 	}
 
-	/**
-	LazyLoadFrontend:
+	/*
 	For 1.10+
 	*/
 	function LazyLoadFrontend()
@@ -192,8 +185,7 @@ class MBVFaq extends CMSModule
 		return $this->Lang('postuninstall');
 	}
 
-	/**
-	SetParameters:
+	/*
 	For pre-1.10
 	*/
 	function SetParameters()
@@ -202,8 +194,7 @@ class MBVFaq extends CMSModule
 		$this->InitializeFrontend();
 	}
 
-	/**
-	InitializeFrontend:
+	/*
 	Partial setup for 1.10
 	*/
 	function InitializeFrontend()
@@ -231,8 +222,7 @@ class MBVFaq extends CMSModule
 		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
 	}
 
-	/**
-	InitializeAdmin:
+	/*
 	Partial setup for 1.10+
 	*/
 	function InitializeAdmin()
