@@ -19,33 +19,36 @@ $pmod = $this->_CheckAccess('admin') || $this->_CheckAccess('modify')
 $sq = $this->GetPreference('short_question', true);
 $sa = $this->GetPreference('short_answer', true);
 // setup variables for the window
-$smarty->assign('mod', $pmod);
+$tplvars = array(
+	'mod' =>  $pmod,
 
-$smarty->assign('backtomod_nav', $this->CreateLink($id, 'defaultadmin', '', $this->Lang('backto_module'), array()));
-
-$smarty->assign('startform', $this->CreateFormStart($id, 'updateitem', $returnid));
-$smarty->assign('endform', $this->CreateFormEnd());
+	'backtomod_nav' =>  $this->CreateLink($id, 'defaultadmin', '', $this->Lang('backto_module'), array()),
+	'startform' =>  $this->CreateFormStart($id, 'updateitem', $returnid),
+	'endform' =>  $this->CreateFormEnd()
+);
 
 $p = $this->Lang('label_short_question').' ('.$this->Lang('short_length');
 if ($sq) $p .= ', '.$this->Lang('label_usage');
 $p .= ')';
-$smarty->assign('short_question_text', $p);
+$tplvars['short_question_text'] = $p;
 $p = $this->Lang('label_long_question');
 if (!$sq) $p .= ' ('.$this->Lang('label_usage').')';
-$smarty->assign('long_question_text', $p);
+$tplvars['long_question_text'] = $p;
 
-$smarty->assign('category_text', $this->Lang('category'));
-$smarty->assign('order_number_text', $this->Lang('order_number'));
-$smarty->assign('help_order_number', $this->Lang('help_order_number'));
-$smarty->assign('active_text', $this->Lang('active'));
+$tplvars += array(
+	'category_text' => $this->Lang('category'),
+	'order_number_text' => $this->Lang('order_number'),
+	'help_order_number' => $this->Lang('help_order_number'),
+	'active_text' => $this->Lang('active')
+);
 
 $p = $this->Lang('label_short_answer').' ('.$this->Lang('short_length');
 if ($sa) $p .= ', '.$this->Lang('label_usage');
 $p .= ')';
-$smarty->assign('short_answer_text', $p);
+$tplvars['short_answer_text'] = $p;
 $p = $this->Lang('label_long_answer');
 if (!$sa) $p .= ' ('.$this->Lang('label_usage').')';
-$smarty->assign('long_answer_text', $p);
+$tplvars['long_answer_text'] = $p;
 
 if ($pmod)
 {
@@ -58,39 +61,45 @@ if ($pmod)
 		if ($category->name != '')
 			$categories[$category->name] = $category->category_id;
 	}
-	$smarty->assign('input_category', $this->CreateInputDropdown($id, 'category', $categories, -1, $item->category_id));
-	$smarty->assign('input_order_number', $this->CreateInputText($id, 'order', $item->order, 3, 5));
-	$smarty->assign('input_short_question', $this->CreateTextArea(false,$id,$item->question,'short_question', '', '', '', '', '80', '5'));
-	$smarty->assign('input_long_question', $this->CreateTextArea(false,$id,$item->long_question, 'long_question', '', '', '', '', '80', '7'));
-	$smarty->assign('input_short_answer', $this->CreateTextArea(true, $id, $item->short_answer, 'short_answer', '', '', '', '', '80', '5'));
-	$smarty->assign('input_long_answer', $this->CreateTextArea(true, $id, $item->long_answer, 'long_answer', '', '', '', '', '80', '15'));
+	$tplvars += array(
+		'input_category' => $this->CreateInputDropdown($id, 'category', $categories, -1, $item->category_id),
+		'input_order_number' => $this->CreateInputText($id, 'order', $item->order, 3, 5),
+		'input_short_question' => $this->CreateTextArea(false,$id,$item->question,'short_question', '', '', '', '', '80', '5'),
+		'input_long_question' => $this->CreateTextArea(false,$id,$item->long_question, 'long_question', '', '', '', '', '80', '7'),
+		'input_short_answer' => $this->CreateTextArea(true, $id, $item->short_answer, 'short_answer', '', '', '', '', '80', '5'),
+		'input_long_answer' => $this->CreateTextArea(true, $id, $item->long_answer, 'long_answer', '', '', '', '', '80', '15'),
 
-	$smarty->assign('help_use_smarty',$this->Lang('help_use_smarty'));
-	$smarty->assign('input_active', $this->CreateInputCheckbox($id, 'active', '1', $item->active, 'class="pagecheckbox"'));
-	$smarty->assign('create_date', $item->create_date);
-	$smarty->assign('hidden', $this->CreateInputHidden($id, 'item_id', $item_id).
-		$this->CreateInputHidden($id, 'create_date', $item->create_date));
-	$smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));
-	$smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel')));
+		'help_use_smarty' => $this->Lang('help_use_smarty'),
+		'input_active' => $this->CreateInputCheckbox($id, 'active', '1', $item->active, 'class="pagecheckbox"'),
+		'create_date' => $item->create_date,
+		'hidden' => $this->CreateInputHidden($id, 'item_id', $item_id).
+			$this->CreateInputHidden($id, 'create_date', $item->create_date),
+		'submit' => $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')),
+		'cancel' => $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel'))
+	);
 }
 else
 {
-	$smarty->assign('input_category', $item->category);
-	$smarty->assign('input_order_number', $item->order);
-	$smarty->assign('input_short_question', $item->question);
-	$smarty->assign('input_long_question', $item->long_question);
+	$tplvars += array(
+		'input_category' => $item->category,
+		'input_order_number' => $item->order,
+		'input_short_question' => $item->question,
+		'input_long_question' => $item->long_question
+	);
 	$cleartypes = array('p');
-	$smarty->assign('input_short_answer', $funcs->StripTags($item->short_answer,$cleartypes));
-	$smarty->assign('input_long_answer', $funcs->StripTags($item->long_answer,$cleartypes));
+	$tplvars['input_short_answer'] = $funcs->StripTags($item->short_answer,$cleartypes);
+	$tplvars['input_long_answer'] = $funcs->StripTags($item->long_answer,$cleartypes);
 	$p = ($item->active) ? $this->Lang('yes'):$this->Lang('no');
-	$smarty->assign('input_active', $p);
-	$smarty->assign('create_date', $item->create_date);
-	$smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('close')));
+	$tplvars += array(
+		'input_active' => $p,
+		'create_date' => $item->create_date,
+		'cancel' => $this->CreateInputSubmit($id, 'cancel', $this->Lang('close'))
+	);
 }
 
 if ($item->create_date)
-	$smarty->assign('create_date_text', $this->Lang('created'));
+	$tplvars['create_date_text'] = $this->Lang('created');
 
-echo $this->ProcessTemplate('editfaq.tpl');
+$funcs->ProcessTemplate($this,'editfaq.tpl',$tplvars);
 
 ?>

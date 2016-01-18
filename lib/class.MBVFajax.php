@@ -125,13 +125,15 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 			}
 			$rs->Close();
 
-			if (count($items) > 0)
+			if ($items)
 			{
-				$smarty->assign('items',$items);
-				$smarty->assign('idclass',($pdev)?'seeid':'hideid');
-				$smarty->assign('del',$pdel);
-				$smarty->assign('own',$padm || $owned);
-				echo $mod->ProcessTemplate('questions.tpl');
+				$tplvars = array(
+					'items' => $items,
+					'idclass' => ($pdev)?'seeid':'hideid',
+					'del' => $pdel,
+					'own' => $padm || $owned
+				);
+				$funcs->ProcessTemplate($mod,'questions.tpl',$tplvars);
 				return;
 			}
 		}

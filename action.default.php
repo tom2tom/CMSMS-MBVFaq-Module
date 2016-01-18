@@ -40,14 +40,14 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '')
 	else
 		$item->answer = $item->short_answer;
 
-	$smarty->assign_by_ref('item',$item);
+	$tplvars = array(
+	'item' => $item,
+	'styles_root' => $this->GetModuleURLPath().'/css',
+	'label_question' => $this->Lang('item'),
+	'label_answer' => $this->Lang('answer')
+	);
 
-	$smarty->assign('styles_root',$config['root_url'].'/modules/'.$this->GetName().'/css');
-
-	$smarty->assign('label_question',$this->Lang('item'));
-	$smarty->assign('label_answer',$this->Lang('answer'));
-
-	echo $this->ProcessTemplate('detail.tpl');
+	$funcs->ProcessTemplate($this,'detail.tpl',$tplvars);
 }
 else
 {
@@ -149,6 +149,7 @@ else
 	else
 		$regex= false;
 
+	$tplvars = array();
 	$sq = $this->GetPreference('short_question', true);
 	$sa = $this->GetPreference('short_answer', true);
 	$multi = (count($categories) > 1);
@@ -236,7 +237,7 @@ else
 					$s = $row['long_answer'];
 					if ($s == '') $s = $row['short_answer'];
 				}
-				$one->answer = $this->ProcessTemplateFromData($s);
+				$one->answer = $funcs->ProcessTemplateFromData($this,$s,$tplvars);
 				$one->itemlink = $funcs->GetLink($this,$id,$returnid,strip_tags($row['short_question']),'', $row['item_id']);
 				$items[] = $one;
 			}
@@ -252,9 +253,9 @@ else
 		}
 	}
 
-	$smarty->assign('cats',$categories);
+	$tplvars['cats'] = $categories;
 	$numcat = count($categories);
-	$smarty->assign('catcount',$numcat);
+	$tplvars['catcount'] = $numcat;
 
 	if ($numcat > 0 && $this->GetPreference('use_jquery', true))
 	{
@@ -281,13 +282,13 @@ else
 			$jq = str_replace($pat, $filepath, $jq);
 			break;
 		}
-		$smarty->assign('jquery',$jq);
+		$tplvars['jquery'] = $jq;
 	}
 	else
-		$smarty->assign('noitems',$this->Lang('noitems'));
+		$tplvars['noitems'] = $this->Lang('noitems');
 
 	// Display the populated template
-	echo $this->ProcessTemplate('overview.tpl');
+	$funcs->ProcessTemplate($this,'overview.tpl',$tplvars);
 }
 
 ?>
