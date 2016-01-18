@@ -83,6 +83,7 @@ $lang['perm_delete']	= 'Delete FAQ';
 $lang['perm_modify']	= 'Modify FAQ';
 $lang['perm_some']		= 'some relevant';
 $lang['perm_view']		= 'Inspect FAQ';
+$lang['reorder']		= 'Reorder';
 $lang['reset']			= 'Reset';
 $lang['see']			= 'see';
 $lang['settings']		= 'Settings';
