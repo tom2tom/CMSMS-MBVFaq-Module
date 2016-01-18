@@ -197,6 +197,8 @@ if ($icnt > 0)
 	if($showby)
 		$tplvars['answerertext'] = $this->Lang('label_answerer');
 	$tplvars['activetext'] = $this->Lang('active');
+	$tplvars['movetext'] = $this->Lang('reorder');
+
 	if ($icnt > 1)
 		$tplvars['selectall_items'] =
 			$this->CreateInputCheckbox($id,'item',true,false,'onclick="select_all_items(this)"');
