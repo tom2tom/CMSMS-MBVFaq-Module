@@ -52,9 +52,15 @@
   <li>Maximum CMSMS version 1.12+</li>
  </ul>
 </li>
-<li>Version 1.1 20 January 2016
+<li>Version 1.1 10 December 2015
  <ul>
   <li>Support CMSMS version 2+</li>
+ </ul>
+</li>
+<li>Version 1.2 20 January 2016
+ <ul>
+  <li>Support CMSMS2 templates API</li>
+  <li>Admin UI polish</li>
  </ul>
 </li>
 </ul>
