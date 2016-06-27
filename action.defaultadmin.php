@@ -9,9 +9,9 @@
 $padm = $this->_CheckAccess('admin');
 if ($padm)
 {
-	$padd = true;
-	$pdel = true;
-	$pmod = true;
+	$padd = TRUE;
+	$pdel = TRUE;
+	$pmod = TRUE;
 }
 else
 {
@@ -47,7 +47,7 @@ else
 if ($pdel)
 	$icondel = $theme->DisplayImage('icons/system/delete.gif',$this->Lang('deleteitem'),'','','systemicon');
 
-$owned = $this->GetPreference('owned_categories',false);
+$owned = $this->GetPreference('owned_categories',FALSE);
 $tplvars['grpown'] = $owned;
 $allowners = $padm; //admin permission removes limit on category ownership
 $showby = $allowners || $owned; //display answerer name even if no owned groups
@@ -81,11 +81,11 @@ if ($padd)
 	$tplvars['additemlink'] =
 	 $this->CreateLink($id,'openitem',$returnid,
 		 $theme->DisplayImage('icons/system/newobject.gif',$this->Lang('additem'),'','','systemicon'),
-		 array(),'',false,false,'')
+		 array(),'',FALSE,FALSE,'')
 	 .' '.
 	 $this->CreateLink($id,'openitem',$returnid,
 		 $this->Lang('additem'),
-		 array(),'',false,false,'class="pageoptions"');
+		 array(),'',FALSE,FALSE,'class="pageoptions"');
 }
 
 //NOTE: changes to the body of the questions table must be replicated
@@ -95,10 +95,10 @@ $jsfuncs = array();
 $jsloads = array();
 $items = array();
 
-$catscope = ($mod) ? ($allowners || !$owned) : true; //show all,when just viewing
+$catscope = ($mod) ? ($allowners || !$owned) : TRUE; //show all,when just viewing
 // get a simple list of available categories
 $funcs = new MBVFshared();
-$groups = $funcs->GetCategories($this,0,0,false,$catscope);
+$groups = $funcs->GetCategories($this,0,0,FALSE,$catscope);
 // get array of all questions in the category(ies),ordered by fields category and vieworder
 $wanted = implode (',',array_keys($groups)); //no injection risk from categories keys array
 $sql = "SELECT I.*,U.first_name,U.last_name FROM $this->ItemTable I
@@ -139,10 +139,10 @@ if ($rs)
 		{
 			if ($row['active']) //it's active so create a deactivate-link
 				$one->active = $this->CreateLink($id,'toggleitem',$returnid,$iconyes,
-					array('item_id'=>$thisid,'active'=>true));
+					array('item_id'=>$thisid,'active'=>TRUE));
 			else //it's inactive so create an activate-link
 				$one->active = $this->CreateLink($id,'toggleitem',$returnid,$iconno,
-					array('item_id'=>$thisid,'active'=>false));
+					array('item_id'=>$thisid,'active'=>FALSE));
 
 			$one->downlink = '';
 			// now check if there is a previous item in the same category if so create the apropriate links
@@ -201,7 +201,7 @@ if ($icnt > 0)
 
 	if ($icnt > 1)
 		$tplvars['selectall_items'] =
-			$this->CreateInputCheckbox($id,'item',true,false,'onclick="select_all_items(this)"');
+			$this->CreateInputCheckbox($id,'item',TRUE,FALSE,'onclick="select_all_items(this)"');
 	$tplvars['exportbtn1'] =
 		$this->CreateInputSubmit($id,'export',$this->Lang('export'),
 		'title="'.$this->Lang('exportselitm').'" onclick="return confirm_selitm_count();"');
@@ -258,12 +258,12 @@ $tplvars['startform2'] = $this->CreateFormStart($id,'processcats',$returnid);
 if(isset($params['extracat']))
 	$extracat = (int)$params['extracat'];
 else
-	$extracat = false;
+	$extracat = FALSE;
 /*List categories,sorted by vieworder field,with links for move up/down
-and optionally with owner pick-lists and optionally ($extracat=true)
+and optionally with owner pick-lists and optionally ($extracat=TRUE)
 with an empty row added to the end	*/
 $groups = array();
-$uid = get_userid(false); //current admin user
+$uid = get_userid(FALSE); //current admin user
 
 if ($mod)
 {
@@ -286,7 +286,7 @@ if ($rs)
 		//find all valid owners
 		$owners = array('&lt;'.$this->Lang('none').'&gt;' => 0);
 		//NOTE cmsms function check_permission() is buggy, always returns
-		//false for everyone other than the current user, so we replicate
+		//FALSE for everyone other than the current user, so we replicate
 		//its backend operation here
 		$pref = cms_db_prefix();
 		$sql = "SELECT DISTINCT U.user_id,U.username,U.first_name,U.last_name FROM $this->UserTable U
@@ -403,7 +403,7 @@ if ($gcnt > 0)
 	$tplvars['ownertext'] = $this->Lang('owner');
 	if ($gcnt > 1)
 		$tplvars['selectall_grps'] =
-			$this->CreateInputCheckbox($id,'cat',true,false,'onclick="select_all_groups(this)"');
+			$this->CreateInputCheckbox($id,'cat',TRUE,FALSE,'onclick="select_all_groups(this)"');
 	//buttons
 	$tplvars['exportbtn2'] = $this->CreateInputSubmit($id,'export',
 		$this->Lang('export'),
@@ -456,13 +456,13 @@ else
 
 if ($padd)
 {
+	$t = $this->Lang('addcategory');
 	$tplvars['addgrplink'] = $this->CreateLink($id,'addcategory',$returnid,
-		$theme->DisplayImage('icons/system/newobject.gif',$this->Lang('addcategory'),'','','systemicon'),
-			array(),'',false,false,'')
+		$theme->DisplayImage('icons/system/newobject.gif',$t,'','','systemicon'),
+			array(),'',FALSE,FALSE,'')
 		.' '.
-		$this->CreateLink($id,'addcategory',$returnid,
-			$this->Lang('addcategory'),
-			array(),'',false,false,'class="pageoptions"');
+		$this->CreateLink($id,'addcategory',$returnid,$t,
+			array(),'',FALSE,FALSE,'class="pageoptions"');
 }
 
 if ($mod)
@@ -479,37 +479,37 @@ if ($padm)
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_clear_cat');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_clear_category',true,
-		$this->GetPreference('clear_category',false),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_clear_category',TRUE,
+		$this->GetPreference('clear_category',FALSE),'');
 	$settings[] = $one;
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_user_cats');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_owned_categories',true,
-		$this->GetPreference('owned_categories',false),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_owned_categories',TRUE,
+		$this->GetPreference('owned_categories',FALSE),'');
 	$settings[] = $one;
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_short_question');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_short_question',true,
-		$this->GetPreference('short_question',true),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_short_question',TRUE,
+		$this->GetPreference('short_question',TRUE),'');
 	$settings[] = $one;
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_short_answer');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_short_answer',true,
-		$this->GetPreference('short_answer',true),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_short_answer',TRUE,
+		$this->GetPreference('short_answer',TRUE),'');
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_use_jquery');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_use_jquery',true,
-		$this->GetPreference('use_jquery',true),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_use_jquery',TRUE,
+		$this->GetPreference('use_jquery',TRUE),'');
 	$settings[] = $one;
 
 	$one = new stdClass();
 	$one->title = $this->Lang('option_ignore_click');
-	$one->input = $this->CreateInputCheckbox($id,'mbvf_ignore_click',true,
-		$this->GetPreference('ignore_click',true),'');
+	$one->input = $this->CreateInputCheckbox($id,'mbvf_ignore_click',TRUE,
+		$this->GetPreference('ignore_click',TRUE),'');
 	$settings[] = $one;
 
 	$tplvars['settings'] = $settings;
@@ -546,6 +546,8 @@ function dropresponse(data,status)
 
 EOS;
 	$jsloads[] = <<< EOS
+ $('.updown').hide();
+ $('.dndhelp').css('display','block');
  $('.table_drag').tableDnD({
   onDragClass: 'row1hover',
   onDrop: function(table, droprows){
@@ -593,8 +595,6 @@ EOS;
   var to = now.indexOf('hover');
   $(this).attr('class', now.substring(0,to));
  });
- $('.updown').hide();
- $('.dndhelp').css('display','block');
 
 EOS;
 
