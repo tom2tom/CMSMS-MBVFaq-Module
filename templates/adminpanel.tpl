@@ -126,8 +126,9 @@
 
 {$tabs_footer}
 
-{$jsincs}
-{if isset($jsfuncs)}
+{if !empty($jsincs)}{$jsincs}
+{/if}
+{if !empty($jsfuncs)}
 <script type="text/javascript">
 //<![CDATA[
 {foreach from=$jsfuncs item=func}{$func}{/foreach}
