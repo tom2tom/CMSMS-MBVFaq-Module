@@ -48,6 +48,24 @@ class MBVFaq extends CMSModule
 		$this->before20 = (version_compare ($CMS_VERSION,'2.0') < 0);
 	}
 
+	function AllowAutoInstall()
+	{
+		return false;
+	}
+
+	function AllowAutoUpgrade()
+	{
+		return false;
+	}
+
+	/*
+	For 1.11+
+	*/
+	function AllowSmartyCaching()
+	{
+		return true;
+	}
+
 	function GetName()
 	{
 		return 'MBVFaq';
@@ -58,23 +76,14 @@ class MBVFaq extends CMSModule
 		return $this->Lang('friendlyname');
 	}
 
-	function GetVersion()
-	{
-		return '1.2';
-	}
-
-	function MinimumCMSVersion()
-	{
-		return '1.9';
-	}
-
-/*	function MaximumCMSVersion()
-	{
-	}
-*/
 	function GetHelp()
 	{
 		return $this->Lang('help');
+	}
+
+	function GetVersion()
+	{
+		return '1.2';
 	}
 
 	function GetAuthor()
@@ -155,14 +164,6 @@ class MBVFaq extends CMSModule
 	}
 
 	/*
-	For 1.11+
-	*/
-	function AllowSmartyCaching()
-	{
-		return true;
-	}
-
-	/*
 	For 1.10+
 	*/
 	function LazyLoadFrontend()
@@ -170,6 +171,16 @@ class MBVFaq extends CMSModule
 		return false; //needed to support route-registration
 	}
 
+	function MinimumCMSVersion()
+	{
+		return '1.9';
+	}
+
+/*public function MaximumCMSVersion()
+	{
+		return '1.12.99';
+	}
+*/
 	function InstallPostMessage()
 	{
 		return $this->Lang('postinstall');
@@ -208,12 +219,17 @@ class MBVFaq extends CMSModule
 		$this->SetParameterType('regex',CLEAN_STRING);
 
 		/* register 'routes' to use for pretty url parsing
-		these regexes translate url-parameter(s) to $param[](s) be supplied
-		to the specified actions (default calls ->DisplayModuleOutput())
-		so the routes need to conform to parameter-usage in handler-func(s)
+		these regexes are for site-root-url-relative 'paths', they translate
+		url-element(s) to $param[](s) be supplied to the specified actions
+		(default calls ->DisplayModuleOutput()) so the routes need to conform
+		to parameter-usage in handler-func(s).
 		(?P<name>regex) captures the text matched by "regex" into the group "name",
 		which can contain letters and numbers but must start with a letter.
 		*/
+		//NB the correct page id is needed in the URL to display generated content
+		//on the correct page! TODO find a dynamic way around this, or at worst
+		//a static preference e.g. $onpage = $this->GetPreference('site_page',-1);
+		//and include 'returnid'=>$onpage in the parameters arrays
 		// for showing the contents of a specific category
 		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/cat(egory)?(?P<cat>.*?)\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
 		// for showing all the details for a specific question
@@ -332,7 +348,7 @@ class MBVFaq extends CMSModule
 
 	/**
 	_DeleteCategory:
-	@category_id: 
+	@category_id:
 	Delete a category, either with all its questions, or after setting all its
 	questions to category 0
 	Confirmation upstream, not here
