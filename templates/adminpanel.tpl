@@ -19,7 +19,7 @@
 {/if}
 {if $del}   <th class="pageicon">&nbsp;</th>
 {/if}
-   <th class="checkbox" style="width:20px;">{if $icount > 1}{$selectall_items}{/if}</th>
+   <th class="checkbox">{if $icount > 1}{$selectall_items}{/if}</th>
   </tr></thead>
   <tbody>
  {foreach from=$items item=entry} {cycle values='row1,row2' name='c1' assign='rowclass'}
@@ -71,7 +71,7 @@
 {/if}
 {if $del}   <th class="pageicon">&nbsp;</th>
 {/if}
-   <th class="checkbox" style="width:20px;">{if $gcount > 1}{$selectall_grps}{/if}</th>
+   <th class="checkbox">{if $gcount > 1}{$selectall_grps}{/if}</th>
   </tr></thead>
   <tbody>
  {foreach from=$grpitems item=entry} {cycle values='row1,row2' name='c2' assign='rowclass'}
