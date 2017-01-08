@@ -14,10 +14,10 @@ if (!($this->_CheckAccess('modify') || $this->_CheckAccess('admin'))) {
 /* $params[] includes
   'droporder' => multi(at least 3)-part string e.g. '2,3,6,1' id's of displayed
 	 questions (1st)before, at, and (last)after the dropped one(s). First or
-	 last may be 'NULL' indicating drop at start or end of table
+	 last may be 'null' indicating drop at start or end of table
 */
 $itemsdrop = explode(',', $params['droporder']);
-if ($itemsdrop[0] == 'NULL' && $itemsdrop[2] == 'NULL') {
+if ($itemsdrop[0] == 'null' && $itemsdrop[2] == 'null') {
 	exit;
 }	//must be a single row, nothing to do
 
@@ -25,11 +25,11 @@ if ($itemsdrop[0] == 'NULL' && $itemsdrop[2] == 'NULL') {
 $dodrops = array_splice($itemsdrop, 1, -1);
 
 $getters = $dodrops;
-$first = ($itemsdrop[0] == 'NULL');
+$first = ($itemsdrop[0] == 'null');
 if (!$first) {
 	array_unshift($getters, $itemsdrop[0]);
 }
-$last = ($itemsdrop[1] == 'NULL');
+$last = ($itemsdrop[1] == 'null');
 if (!$last) {
 	$getters[] = $itemsdrop[1];
 }

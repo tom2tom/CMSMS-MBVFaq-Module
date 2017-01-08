@@ -224,7 +224,7 @@ if ($icnt > 0) {
 function select_all_items(b)
 {
  var st = $(b).attr('checked');
- if(! st) st = FALSE;
+ if(! st) st = false;
  $('input[name="{$id}selitems[]"][type="checkbox"]').attr('checked', st);
 }
 function selitm_count()
@@ -240,7 +240,7 @@ function confirm_delete_item()
 {
  if (selitm_count() > 0)
   return confirm('{$t}');
- return FALSE;
+ return false;
 }
 
 EOS;
@@ -422,7 +422,7 @@ if ($gcnt > 0) {
 function select_all_groups(b)
 {
  var st = $(b).attr('checked');
- if(! st) st = FALSE;
+ if(! st) st = false;
  $('input[name="{$id}selgrps[]"][type="checkbox"]').attr('checked', st);
 }
 function selgrp_count()
@@ -438,7 +438,7 @@ function confirm_delete_grp()
 {
  if (selgrp_count() > 0)
   return confirm('{$t}');
- return FALSE;
+ return false;
 }
 
 EOS;
@@ -541,7 +541,7 @@ EOS;
   onDragClass: 'row1hover',
   onDrop: function(table, droprows){
    var name;
-   var odd = TRUE;
+   var odd = true;
    var oddclass = 'row1';
    var evenclass = 'row2';
    var droprow = $(droprows)[0];
@@ -557,7 +557,7 @@ EOS;
    var act = (table.id=='items') ? 'moveitem':'movecategory';
    var allrows = $(droprow.parentNode).children();
    var curr = droprow.rowIndex - 2;
-   var droporder = (curr < 0) ? 'NULL' : $(allrows[curr]).find('> td.{$idc}:first').html();
+   var droporder = (curr < 0) ? 'null' : $(allrows[curr]).find('> td.{$idc}:first').html();
    curr++;
    var dropcount = droprows.length;
    while (dropcount > 0){
@@ -565,7 +565,7 @@ EOS;
 	curr++;
 	dropcount--;
    }
-   droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html(); //'target' may be 'NULL'
+   droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html(); //'target' may be 'null'
 
    $.ajax({
 	type: 'POST',
