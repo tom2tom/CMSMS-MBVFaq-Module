@@ -9,49 +9,49 @@
 class MBVFshared
 {
 	/**
-	GetItem(&$mod,$item_id,$frontend = true)
+	GetItem(&$mod,$item_id,$frontend = TRUE)
 	Returns an object containing data for the requested faq, or	containing
 	blank data if requested $item_id is not found (incl. '-1').
 	*/
-	function GetItem(&$mod,$item_id,$frontend = true)
+	public function GetItem(&$mod, $item_id, $frontend = TRUE)
 	{
 		$item = new stdClass();
 
 		$db = $mod->dbHandle;
 		$sql = "SELECT I.*, U.first_name, U.last_name FROM $mod->ItemTable I
 LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
-		$row = $db->GetRow($sql,array($item_id));
-		if ($row)
-		{
-			if ($frontend)
+		$row = $db->GetRow($sql, array($item_id));
+		if ($row) {
+			if ($frontend) {
 				$smarty = cmsms()->GetSmarty();
+			}
 			$item->item_id = $row['item_id'];
 			$item->category_id = $row['category_id'];
 			//get the last-found (should only be 1) category name with the appropriate id
 			$sql = "SELECT name FROM $mod->CatTable WHERE category_id=?";
-			$names = $db->GetCol($sql,array($item->category_id));
+			$names = $db->GetCol($sql, array($item->category_id));
 			$item->category = ($names) ? array_pop($names) : '';
 			$item->question = $row['short_question'];
 			$item->long_question = $row['long_question'];
-			if ($row['short_answer'] != '')
-			{
+			if ($row['short_answer'] != '') {
 				$item->short_answer = ($frontend) ?
 					$smarty->fetch('string:'.$row['short_answer']):
 					$row['short_answer'];
-			}
-			else
+			} else {
 				$item->short_answer = '';
-			if ($row['long_answer'] != '')
-			{
+			}
+			if ($row['long_answer'] != '') {
 				$item->long_answer = ($frontend) ?
 					$smarty->fetch('string:'.$row['long_answer']):
 					$row['long_answer'];
-			}
-			else
+			} else {
 				$item->long_answer = '';
+			}
 			$item->owner = $row['owner'];
 			$name = trim($row['first_name'].' '.$row['last_name']);
-			if ($name == '') $name = '<'.$mod->Lang('noowner').'>';
+			if ($name == '') {
+				$name = '<'.$mod->Lang('noowner').'>';
+			}
 			$item->ownername = $name;
 			$item->create_date = $row['create_date'];
 			$item->modified_date = $row['last_modified_date'];
@@ -61,9 +61,7 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 //add some code to get the id for the next and prev questions
 //			$item->prevquestion = '';
 //			$item->nextquestion = '';
-		}
-		else
-		{
+		} else {
 			$item->item_id		= -1;
 			$item->category_id	= 0; //default category
 			$item->category		= '';
@@ -99,82 +97,75 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	If both $category and $item_id are blank, the link will go to the default
 	handler function with just a $returnid
 	*/
-	function GetLink(&$mod,$id,$returnid,$text='',$category='',$item_id='')
+	public function GetLink(&$mod, $id, $returnid, $text='', $category='', $item_id='')
 	{
-		$ignore = $mod->GetPreference('ignore_click',true);
+		$ignore = $mod->GetPreference('ignore_click', TRUE);
 		$oparams = array();
-		if (!$ignore)
-		{
-			if ($category!='')
+		if (!$ignore) {
+			if ($category!='') {
 				$oparams['category'] = $category;
-			if ($item_id!='')
+			}
+			if ($item_id!='') {
 				$oparams['item_id'] = $item_id;
+			}
 		}
 		$brief = ($text=='');
 		$config = cmsms()->GetConfig();
-		if ($config['url_rewriting'] != 'none')
-		{
+		if ($config['url_rewriting'] != 'none') {
 			// handle canonical URL (must conform to RegisterRoute() calls elsewhere)
 			$theurl = 'mbvfaq/';
-			if (!$ignore)
-			{
-				if ($category!='')
+			if (!$ignore) {
+				if ($category!='') {
 					$theurl .= 'cat'.$category.'/';
-				if ($item_id!='')
+				}
+				if ($item_id!='') {
 					$theurl .= 'faq'.$item_id.'/';
+				}
 			}
 			$theurl .= $returnid.'/';
-			$outstring = $mod->CreateLink($id,'default',$returnid,
-				$text,$oparams,'',$brief,false,'',false,$theurl);
-		}
-		else
-		{
-			$outstring = $mod->CreateLink($id,'default',$returnid,
-				$text,$oparams,'',$brief,false);
+			$outstring = $mod->CreateLink($id, 'default', $returnid,
+				$text, $oparams, '', $brief, FALSE, '', FALSE, $theurl);
+		} else {
+			$outstring = $mod->CreateLink($id, 'default', $returnid,
+				$text, $oparams, '', $brief, FALSE);
 		}
 		return $outstring;
 	}
 
 	/**
-	GetCategories(&$mod, $id=0, $returnid=0, $full=false, $anyowner=true)
+	GetCategories(&$mod, $id=0, $returnid=0, $full=FALSE, $anyowner=TRUE)
 
 	Create associative array of category-data, sorted by field 'vieworder',
 	each array member's key is the category id, value is an object
-	$id used in link, when $full is true
+	$id used in link, when $full is TRUE
 	$returnid ditto
-	$full false	return category_id and name only
-	$full true return all table 'raw' data for the category, plus a link TODO describe
-	$anyowner true return all categories
-	$anyowner false return categories whose owner is 0 or matches the current user
+	$full FALSE	return category_id and name only
+	$full TRUE return all table 'raw' data for the category, plus a link TODO describe
+	$anyowner TRUE return all categories
+	$anyowner FALSE return categories whose owner is 0 or matches the current user
 	*/
-	function GetCategories(&$mod,$id=0,$returnid=0,$full=false,$anyowner=true)
+	public function GetCategories(&$mod, $id=0, $returnid=0, $full=FALSE, $anyowner=TRUE)
 	{
 		$catarray = array();
 
 		$db = $mod->dbHandle;
-		if ($anyowner)
-		{
+		if ($anyowner) {
 			$sql = "SELECT category_id,name,vieworder FROM $mod->CatTable ORDER BY vieworder ASC";
 			$rows = $db->GetAssoc($sql);
-		}
-		else
-		{
+		} else {
 			$sql = "SELECT category_id,name,vieworder FROM $mod->CatTable WHERE owner IN (0,?) ORDER BY vieworder ASC";
-			$uid = get_userid(false);
-			$rows = $db->GetAssoc($sql,array($uid));
+			$uid = get_userid(FALSE);
+			$rows = $db->GetAssoc($sql, array($uid));
 		}
 
-		if ($rows)
-		{
-			foreach ($rows as $cid=>$row)
-			{
+		if ($rows) {
+			foreach ($rows as $cid=>$row) {
 				$one = new stdClass();
 				$one->category_id = $cid;
 				$one->name = $row['name'];
-				if ($full)
-				{
+				if ($full) {
 					$one->order= $row['vieworder'];
-					$one->category_link = self::GetLink($mod,$id,$returnid,$one->name,$one->name);
+					$one->category_link = self::GetLink($mod, $id, $returnid, $one->name, $one->name);
 				}
 				$catarray[$cid] = $one;
 			}
@@ -182,10 +173,9 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 		return $catarray;
 	}
 
-	function StripTags($str, &$tags)
+	public function StripTags($str, &$tags)
 	{
-		foreach($tags as $tag)
-		{
+		foreach ($tags as $tag) {
 			$str = preg_replace('#<'.$tag.'(>|\s[^>]*>)#is', '', $str);
 			$str = preg_replace('#</'.$tag.'(>|\s[^>]*>)#is', '<br />', $str);
 		}
@@ -200,28 +190,23 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	@cache: optional boolean, default TRUE
 	Returns: string, processed template
 	*/
-	function ProcessTemplate(&$mod,$tplname,$tplvars,$cache=TRUE)
+	public function ProcessTemplate(&$mod, $tplname, $tplvars, $cache=TRUE)
 	{
 		global $smarty;
-		if($mod->before20)
-		{
+		if ($mod->before20) {
 			$smarty->assign($tplvars);
 			echo $mod->ProcessTemplate($tplname);
-		}
-		else
-		{
-			if($cache)
-			{
+		} else {
+			if ($cache) {
 				$cache_id = md5('mbvf'.$tplname.serialize(array_keys($tplvars)));
 				$lang = CmsNlsOperations::get_current_language();
 				$compile_id = md5('mbvf'.$tplname.$lang);
-				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname),$cache_id,$compile_id,$smarty);
-				if(!$tpl->isCached())
+				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname), $cache_id, $compile_id, $smarty);
+				if (!$tpl->isCached()) {
 					$tpl->assign($tplvars);
-			}
-			else
-			{
-				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname),NULL,NULL,$smarty,$tplvars);
+				}
+			} else {
+				$tpl = $smarty->CreateTemplate($mod->GetFileResource($tplname), NULL, NULL, $smarty, $tplvars);
 			}
 			$tpl->display();
 		}
@@ -235,21 +220,15 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	No cacheing.
 	Returns: string, processed template
 	*/
-	function ProcessTemplateFromData(&$mod,$data,$tplvars)
+	public function ProcessTemplateFromData(&$mod, $data, $tplvars)
 	{
 		global $smarty;
-		if($mod->before20)
-		{
+		if ($mod->before20) {
 			$smarty->assign($tplvars);
 			return $mod->ProcessTemplateFromData($data);
-		}
-		else
-		{
-			$tpl = $smarty->CreateTemplate('eval:'.$data,NULL,NULL,$smarty,$tplvars);
+		} else {
+			$tpl = $smarty->CreateTemplate('eval:'.$data, NULL, NULL, $smarty, $tplvars);
 			return $tpl->fetch();
 		}
 	}
-
 }
-
-?>

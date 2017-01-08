@@ -23,5 +23,3 @@ $this->RemovePermission($this->PermDelName);
 $this->RemovePermission($this->PermSeeName);
 // remove all preferences
 $this->RemovePreference();
-
-?>

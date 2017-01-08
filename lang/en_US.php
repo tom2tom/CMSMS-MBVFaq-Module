@@ -24,7 +24,7 @@ $lang['activateselitm']	= 'toggle activation of selected questions';
 $lang['active']			= 'Active';
 $lang['addcategory']	= 'Add new category';
 $lang['additem']		= 'Add new question';
-//$lang['allusers']		= 'Everyone Authorised';
+//$lang['allusers']	= 'Everyone Authorised';
 $lang['answer']			= 'Answer';
 $lang['apply']			= 'Apply';
 $lang['cancel']			= 'Cancel';
@@ -112,7 +112,7 @@ $lang['help_faq_id'] = 'An alternate name for the \'faq\' parameter';
 $lang['help_pattern'] = 'Specify a wildcarded pattern which the text of questions to be displayed must match, or, if the first character of the pattern is \'!\', must not match';
 $lang['help_regex']	= 'Specify a regular expression which the text of questions to be displayed must match, or, if the first character of the expression is \'!\', must not match';
 
-$lang['help']			= <<<EOS
+$lang['help']			= <<<'EOS'
 <h3>What Does It Do?</h3>
 <p>It manages and displays questions and corresponding answers, individually and/or by category.
 Any question and answer may have alternative short-form and long-form versions.
@@ -129,14 +129,14 @@ or module setting.</p>
 <li>.faqcatblock{}/* div containing an entire category, with all its Q's and A's */</li>
 <li>.faqcatlink{} /* span containing category-link */</li>
 <li>.faqcatlist{} /* for ordered list of categories */</li>
-<li>.faqlink{}    /* span containing question-link */</li>
-<li>.faqlist{}    /* for ordered list of questions within a category */</li>
+<li>.faqlink{}	/* span containing question-link */</li>
+<li>.faqlist{}	/* for ordered list of questions within a category */</li>
 </ul>
 or, when displaying a single question,
 <ul>
 <li>.faqanswer{}  /* div containing answer */</li>
 <li>.faqquestion{}/* div containing question text */</li>
-<li>.faqtitle     /* paragraph containing title: "Question" or "Answer" */</li>
+<li>.faqtitle	 /* paragraph containing title: "Question" or "Answer" */</li>
 </ul>
 </p>
 <p>You might like to manage the display of questions and answers by applying your own javascript, instead of the built-in approach (which just toggles display of answer).</p>
@@ -151,4 +151,3 @@ or, when displaying a single question,
 <p>Copyright &copy; 2011-2016 Tom Phane. All rights reserved.</p>
 <p>This module has been released under version 3 of the <a href="http://www.gnu.org/licenses/licenses.html#AGPL">GNU Affero General Public License</a>. You must agree to this license before using the module.</p>
 EOS;
-?>

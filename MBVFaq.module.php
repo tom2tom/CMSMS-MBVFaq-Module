@@ -31,7 +31,7 @@ class MBVFaq extends CMSModule
 	public $before111;
 	public $before20;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -44,121 +44,128 @@ class MBVFaq extends CMSModule
 		$this->UserTable = $pre.'users';
 
 		global $CMS_VERSION;
-		$this->before111 = (version_compare ($CMS_VERSION,'1.11') < 0);
-		$this->before20 = (version_compare ($CMS_VERSION,'2.0') < 0);
+		$this->before111 = (version_compare($CMS_VERSION, '1.11') < 0);
+		$this->before20 = (version_compare($CMS_VERSION, '2.0') < 0);
 	}
 
-	function AllowAutoInstall()
+	public function AllowAutoInstall()
 	{
-		return false;
+		return FALSE;
 	}
 
-	function AllowAutoUpgrade()
+	public function AllowAutoUpgrade()
 	{
-		return false;
+		return FALSE;
 	}
 
 	/*
 	For 1.11+
 	*/
-	function AllowSmartyCaching()
+	public function AllowSmartyCaching()
 	{
-		return true;
+		return TRUE;
 	}
 
-	function GetName()
+	public function GetName()
 	{
 		return 'MBVFaq';
 	}
 
-	function GetFriendlyName()
+	public function GetFriendlyName()
 	{
 		return $this->Lang('friendlyname');
 	}
 
-	function GetHelp()
+	public function GetHelp()
 	{
 		return $this->Lang('help');
 	}
 
-	function GetVersion()
+	public function GetVersion()
 	{
 		return '1.2';
 	}
 
-	function GetAuthor()
+	public function GetAuthor()
 	{
 		return 'tomphantoo';
 	}
 
-	function GetAuthorEmail()
+	public function GetAuthorEmail()
 	{
 		return 'tpgww@onepost.net';
 	}
 
-	function GetChangeLog()
+	public function GetChangeLog()
 	{
-		$fn = cms_join_path(dirname(__FILE__),'include','changelog.inc');
+		$fn = cms_join_path(dirname(__FILE__), 'include', 'changelog.inc');
 		return @file_get_contents($fn);
 	}
 
-	function IsPluginModule()
+	public function IsPluginModule()
 	{
-		return true;
+		return TRUE;
 	}
 
-	function HasAdmin()
+	public function HasAdmin()
 	{
-		return true;
+		return TRUE;
 	}
 
 	/*
 	For 1.10+
 	*/
-	function LazyLoadAdmin()
+	public function LazyLoadAdmin()
 	{
-		return true;
+		return TRUE;
 	}
 
-	function GetAdminSection()
+	public function GetAdminSection()
 	{
 		return 'content';
 	}
 
-	function GetAdminDescription()
+	public function GetAdminDescription()
 	{
 		return $this->Lang('moddescription');
 	}
 
-	function VisibleToAdminUser()
+	public function VisibleToAdminUser()
 	{
-        return $this->_CheckAccess();
+		return $this->_CheckAccess();
 	}
 
 /*	function AdminStyle()
 	{
 	}
 */
-	function GetHeaderHTML()
+	public function GetHeaderHTML()
 	{
 		return '<link rel="stylesheet" type="text/css" id="adminstyler" href="'.$this->GetModuleURLPath().'/css/admin.css" />';
 	}
 
-	function SuppressAdminOutput(&$request)
+	public function SuppressAdminOutput(&$request)
 	{
 		//prevent output of general admin content when doing an export,
 		//and when updating the database via an ajax call
-		if (isset($request['mact']))
-		{
-			if (strpos($request['mact'], 'moveitem', 6)) return true;
-			if (strpos($request['mact'], 'movecategory', 6)) return true;
-			if (strpos($request['mact'], 'export', 6)) return true;
+		if (isset($request['mact'])) {
+			if (strpos($request['mact'], 'moveitem', 6)) {
+				return TRUE;
+			}
+			if (strpos($request['mact'], 'movecategory', 6)) {
+				return TRUE;
+			}
+			if (strpos($request['mact'], 'export', 6)) {
+				return TRUE;
+			}
 		}
-		if (isset($request['m1_export'])) return true;
-		return false;
+		if (isset($request['m1_export'])) {
+			return TRUE;
+		}
+		return FALSE;
 	}
 
-	function GetDependencies()
+	public function GetDependencies()
 	{
 		return array();
 	}
@@ -166,12 +173,12 @@ class MBVFaq extends CMSModule
 	/*
 	For 1.10+
 	*/
-	function LazyLoadFrontend()
+	public function LazyLoadFrontend()
 	{
-		return false; //needed to support route-registration
+		return FALSE; //needed to support route-registration
 	}
 
-	function MinimumCMSVersion()
+	public function MinimumCMSVersion()
 	{
 		return '1.9';
 	}
@@ -181,17 +188,17 @@ class MBVFaq extends CMSModule
 		return '1.12.99';
 	}
 */
-	function InstallPostMessage()
+	public function InstallPostMessage()
 	{
 		return $this->Lang('postinstall');
 	}
 
-	function UninstallPreMessage()
+	public function UninstallPreMessage()
 	{
 		return $this->Lang('really_uninstall');
 	}
 
-	function UninstallPostMessage()
+	public function UninstallPostMessage()
 	{
 		return $this->Lang('postuninstall');
 	}
@@ -199,7 +206,7 @@ class MBVFaq extends CMSModule
 	/*
 	For pre-1.10
 	*/
-	function SetParameters()
+	public function SetParameters()
 	{
 		$this->InitializeAdmin();
 		$this->InitializeFrontend();
@@ -208,15 +215,15 @@ class MBVFaq extends CMSModule
 	/*
 	Partial setup for 1.10
 	*/
-	function InitializeFrontend()
+	public function InitializeFrontend()
 	{
 		$this->RestrictUnknownParams();
-		$this->SetParameterType('cat',CLEAN_STRING);
-		$this->SetParameterType('category',CLEAN_STRING);
-		$this->SetParameterType('faq',CLEAN_INT);
-		$this->SetParameterType('faq_id',CLEAN_INT);
-		$this->SetParameterType('pattern',CLEAN_STRING);
-		$this->SetParameterType('regex',CLEAN_STRING);
+		$this->SetParameterType('cat', CLEAN_STRING);
+		$this->SetParameterType('category', CLEAN_STRING);
+		$this->SetParameterType('faq', CLEAN_INT);
+		$this->SetParameterType('faq_id', CLEAN_INT);
+		$this->SetParameterType('pattern', CLEAN_STRING);
+		$this->SetParameterType('regex', CLEAN_STRING);
 
 		/* register 'routes' to use for pretty url parsing
 		these regexes are for site-root-url-relative 'paths', they translate
@@ -231,24 +238,24 @@ class MBVFaq extends CMSModule
 		//a static preference e.g. $onpage = $this->GetPreference('site_page',-1);
 		//and include 'returnid'=>$onpage in the parameters arrays
 		// for showing the contents of a specific category
-		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/cat(egory)?(?P<cat>.*?)\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
+		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/cat(egory)?(?P<cat>.*?)\/(?P<returnid>[0-9]+)$/', array('action'=>'default'));
 		// for showing all the details for a specific question
-		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/faq(_id)?(?P<faq>[0-9]+)\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
+		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/faq(_id)?(?P<faq>[0-9]+)\/(?P<returnid>[0-9]+)$/', array('action'=>'default'));
 		// for doing nothing i.e. ignored links
-		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/(?P<returnid>[0-9]+)$/',array('action'=>'default'));
+		$this->RegisterRoute('/[mM][bB][vV][fF]aq\/(?P<returnid>[0-9]+)$/', array('action'=>'default'));
 	}
 
 	/*
 	Partial setup for 1.10+
 	*/
-	function InitializeAdmin()
+	public function InitializeAdmin()
 	{
-		$this->CreateParameter('cat','',$this->Lang('help_cat'));
-		$this->CreateParameter('category','',$this->Lang('help_category'));
-		$this->CreateParameter('faq','',$this->Lang('help_faq'));
-		$this->CreateParameter('faq_id','',$this->Lang('help_faq_id'));
-		$this->CreateParameter('pattern','',$this->Lang('help_pattern'));
-		$this->CreateParameter('regex','',$this->Lang('help_regex'));
+		$this->CreateParameter('cat', '', $this->Lang('help_cat'));
+		$this->CreateParameter('category', '', $this->Lang('help_category'));
+		$this->CreateParameter('faq', '', $this->Lang('help_faq'));
+		$this->CreateParameter('faq_id', '', $this->Lang('help_faq_id'));
+		$this->CreateParameter('pattern', '', $this->Lang('help_pattern'));
+		$this->CreateParameter('regex', '', $this->Lang('help_regex'));
 	}
 
 	/*
@@ -257,10 +264,9 @@ class MBVFaq extends CMSModule
 	are governed by which actionable widgets are displayed
 	- and those are permission-checked before creation
 	*/
-	function DoAction($action, $id, $params, $returnid=-1)
+	public function DoAction($action, $id, $params, $returnid=-1)
 	{
-		switch ($action)
-		{
+		switch ($action) {
 		case 'default':
 		case 'defaultadmin':
 		case 'movecategory': //process reorder by DnD
@@ -274,8 +280,9 @@ class MBVFaq extends CMSModule
 		case 'setprefs':
 			break;
 		case 'deleteitem':
-			if (isset($params['item_id']) && ($params['item_id'] > -1))
-				$this->_DeleteItem($params['item_id']); //trivial, several uses, don't bother with separate action file
+			if (isset($params['item_id']) && ($params['item_id'] > -1)) {
+				$this->_DeleteItem($params['item_id']);
+			} //trivial, several uses, don't bother with separate action file
 			$action = 'defaultadmin';
 			$params = array();
 			break;
@@ -286,37 +293,45 @@ class MBVFaq extends CMSModule
 			break;
 		case 'addcategory':
 			$action = 'defaultadmin';
-			$params = array('showtab' => 1,'extracat' => true);
+			$params = array('showtab' => 1,'extracat' => TRUE);
 			break;
 		case 'deletecategory':
-			if (isset($params['category_id']) && ($params['category_id'] > 0))
-				$this->_DeleteCategory($params['category_id']); //several uses, don't bother with separate action file
+			if (isset($params['category_id']) && ($params['category_id'] > 0)) {
+				$this->_DeleteCategory($params['category_id']);
+			} //several uses, don't bother with separate action file
 			$action = 'defaultadmin';
 			$params = array('showtab' => 1);
 			break;
 		default:
 			return;
 		}
-		parent::DoAction($action,$id,$params,$returnid);
+		parent::DoAction($action, $id, $params, $returnid);
 	}
 
 	/**
 	_CheckAccess:
 	@permission: string specifying what to check, default=''
-	@warn: whether to show a warning message if permission not valid, default=false
+	@warn: whether to show a warning message if permission not valid, default=FALSE
 		NOT PART OF THE MODULE API
 	*/
-	function _CheckAccess($permission='',$warn=false)
+	public function _CheckAccess($permission='', $warn=FALSE)
 	{
-		switch ($permission)
-		{
+		switch ($permission) {
 		case '': //anything relevant
 			$name = '';
 			$ok = $this->CheckPermission($this->PermSeeName);
-			if (!$ok) $ok = $this->CheckPermission($this->PermAddName);
-			if (!$ok) $ok = $this->CheckPermission($this->PermDelName);
-			if (!$ok) $ok = $this->CheckPermission($this->PermModName);
-			if (!$ok) $ok = $this->CheckPermission($this->PermAdminName);
+			if (!$ok) {
+				$ok = $this->CheckPermission($this->PermAddName);
+			}
+			if (!$ok) {
+				$ok = $this->CheckPermission($this->PermDelName);
+			}
+			if (!$ok) {
+				$ok = $this->CheckPermission($this->PermModName);
+			}
+			if (!$ok) {
+				$ok = $this->CheckPermission($this->PermAdminName);
+			}
 			break;
 		case 'admin':
 			$name = $this->PermAdminName;
@@ -336,12 +351,13 @@ class MBVFaq extends CMSModule
 			break;
 		default:
 			$name = '';
-			$ok = false;
+			$ok = FALSE;
 		}
-		if (!$ok && $warn)
-		{
-			if ($name == '') $name = $this->Lang('perm_some');
-			echo '<p class="error">'.$this->Lang('accessdenied2',$name).'</p>';
+		if (!$ok && $warn) {
+			if ($name == '') {
+				$name = $this->Lang('perm_some');
+			}
+			echo '<p class="error">'.$this->Lang('accessdenied2', $name).'</p>';
 		}
 		return $ok;
 	}
@@ -353,19 +369,19 @@ class MBVFaq extends CMSModule
 	questions to category 0
 	Confirmation upstream, not here
 	*/
-	function _DeleteCategory($category_id)
+	public function _DeleteCategory($category_id)
 	{
-		if ($category_id > 0) //no deleting the default category
-		{
+		if ($category_id > 0) { //no deleting the default category
 			$db = $this->dbHandle;
-			$all = $this->GetPreference('clear_category', false);
-			if ($all) // first delete the contents
+			$all = $this->GetPreference('clear_category', FALSE);
+			if ($all) { // first delete the contents
 				$sql = "DELETE FROM $this->ItemTable WHERE category_id=?";
-			else // first set the category_id of the affected contents to 0
+			} else { // first set the category_id of the affected contents to 0
 				$sql = "UPDATE $this->ItemTable SET category_id=0 WHERE category_id=?";
-			$db->Execute($sql,array($category_id));
+			}
+			$db->Execute($sql, array($category_id));
 			$sql = "DELETE FROM $this->CatTable WHERE category_id=?";
-			$db->Execute($sql,array($category_id));
+			$db->Execute($sql, array($category_id));
 		}
 	}
 
@@ -376,26 +392,23 @@ class MBVFaq extends CMSModule
 	@returnid:
 	[de]activate the item passed in @params
 	*/
-	function _ActivateItem($id, &$params, $returnid)
+	public function _ActivateItem($id, &$params, $returnid)
 	{
-		if (isset($params['item_id']))
-		{
+		if (isset($params['item_id'])) {
 			$querydata = array();
-			if (isset($params['active']))
-			{
-				if ($params['active'])
+			if (isset($params['active'])) {
+				if ($params['active']) {
 					$querydata[] = 0;
-				else
+				} else {
 					$querydata[] = 1;
-			}
-			else
-			{
+				}
+			} else {
 				$querydata[] = 0;
 			}
 			$querydata[] = $params['item_id'];
 
 			$sql = "UPDATE $this->ItemTable SET active=? WHERE item_id=?";
-	    	$this->dbHandle->Execute($sql, $querydata);
+			$this->dbHandle->Execute($sql, $querydata);
 		}
 	}
 
@@ -404,7 +417,7 @@ class MBVFaq extends CMSModule
 	@$item_id:
 	Delete from the db the question passed in @item_id
 	*/
-	function _DeleteItem($item_id)
+	public function _DeleteItem($item_id)
 	{
 		$sql = "DELETE FROM $this->ItemTable WHERE item_id=?";
 		$this->dbHandle->Execute($sql, array($item_id));
@@ -419,25 +432,27 @@ class MBVFaq extends CMSModule
 	 Split @str at its max_length and ellipsize
 	 Returns: ellipsized string
 	 */
-	function ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
+	public function ellipsize($str, $max_length, $position = 1, $ellipsis = '&hellip;')
 	{
 		$str = trim($str);
 		// Is the string long enough to ellipsize?
-		if (strlen($str) <= $max_length)
+		if (strlen($str) <= $max_length) {
 			return $str;
+		}
 
-		if ($position > 1) $position = 1;
-		else if ($position < 0) $position = 0;
+		if ($position > 1) {
+			$position = 1;
+		} elseif ($position < 0) {
+			$position = 0;
+		}
 		$beg = substr($str, 0, floor($max_length * $position));
 
-		if ($position === 1)
+		if ($position === 1) {
 			$end = substr($str, 0, -($max_length - strlen($beg)));
-		else
+		} else {
 			$end = substr($str, -($max_length - strlen($beg)));
+		}
 
 		return $beg.$ellipsis.$end;
 	}
-
 }
-
-?>

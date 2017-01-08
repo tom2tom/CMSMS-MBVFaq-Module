@@ -28,9 +28,13 @@ $fields = "
 	owner I(4)
 ";
 $sqlarray = $dict->CreateTableSQL($this->ItemTable, $fields, $taboptarray);
-if ($sqlarray == false) return false;
-$res = $dict->ExecuteSQLArray($sqlarray, false);
-if ($res != 2) return false;
+if ($sqlarray == FALSE) {
+	return FALSE;
+}
+$res = $dict->ExecuteSQLArray($sqlarray, FALSE);
+if ($res != 2) {
+	return FALSE;
+}
 // create a sequence
 $db->CreateSequence($this->ItemTable.'_seq');
 /*
@@ -44,14 +48,18 @@ $fields = "
 	owner I(4) NOTNULL DEFAULT 0
 ";
 $sqlarray = $dict->CreateTableSQL($this->CatTable, $fields, $taboptarray);
-if ($sqlarray == false) return false;
-$res = $dict->ExecuteSQLArray($sqlarray, false);
-if ($res != 2) return false;
+if ($sqlarray == FALSE) {
+	return FALSE;
+}
+$res = $dict->ExecuteSQLArray($sqlarray, FALSE);
+if ($res != 2) {
+	return FALSE;
+}
 // create a sequence
 $db->CreateSequence($this->CatTable.'_seq');
 // add a default category 0, usable by everyone
 $sql = "INSERT INTO $this->CatTable (category_id, name, vieworder) VALUES (0,?,0)";
-$db->Execute($sql,array($this->Lang('catdefault')));
+$db->Execute($sql, array($this->Lang('catdefault')));
 
 // create permissions
 $this->CreatePermission($this->PermAdminName, $this->Lang('perm_admin'));
@@ -61,11 +69,9 @@ $this->CreatePermission($this->PermDelName, $this->Lang('perm_delete'));
 $this->CreatePermission($this->PermSeeName, $this->Lang('perm_view'));
 
 // create preferences
-$this->SetPreference('clear_category', false);	//delete questions in category when category is deleted (admin)
-$this->SetPreference('owned_categories',false);	//enable user-specific categories
-$this->SetPreference('short_answer', true);		//front-end display short answer if it exists, in preference to long form
-$this->SetPreference('short_question', true);	//front-end display short question if it exists, in preference to long form
-$this->SetPreference('use_jquery',true);		//add custom jquery code to frontend page, for handling clicks
-$this->SetPreference('ignore_click', true);		//don't process front-end link-clicks (e.g. when using js to process them)
-
-?>
+$this->SetPreference('clear_category', FALSE);	//delete questions in category when category is deleted (admin)
+$this->SetPreference('owned_categories', FALSE);	//enable user-specific categories
+$this->SetPreference('short_answer', TRUE);		//front-end display short answer if it exists, in preference to long form
+$this->SetPreference('short_question', TRUE);	//front-end display short question if it exists, in preference to long form
+$this->SetPreference('use_jquery', TRUE);		//add custom jquery code to frontend page, for handling clicks
+$this->SetPreference('ignore_click', TRUE);		//don't process front-end link-clicks (e.g. when using js to process them)

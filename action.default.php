@@ -10,35 +10,36 @@
 $funcs = new MBVFshared();
 
 //convert deprecated formats
-if (isset($params['faq_id']))
+if (isset($params['faq_id'])) {
 	$params['faq'] = $params['faq_id'];
-if (isset($params['category']))
+}
+if (isset($params['category'])) {
 	$params['cat'] = $params['category'];
+}
 
 // are we displaying a single item ?
-if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '')
-{
+if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 	// get data for the matching faq
 	$item = $funcs->GetItem($this, $params['faq']);
-	if ($this->GetPreference('short_question', true))
-	{
-		if ($item->question == '')
+	if ($this->GetPreference('short_question', TRUE)) {
+		if ($item->question == '') {
 			$item->question = $item->long_question;
+		}
+	} elseif ($item->long_question != '') {
+		$item->question = $item->long_question;
 	}
-	elseif ($item->long_question != '')
-			$item->question = $item->long_question;
 
-	if ($this->GetPreference('short_answer', true))
-	{
-		if ($item->short_answer != '')
+	if ($this->GetPreference('short_answer', TRUE)) {
+		if ($item->short_answer != '') {
 			$item->answer = $item->short_answer;
-		else
+		} else {
 			$item->answer = $item->long_answer;
-	}
-	elseif ($item->long_answer != '')
+		}
+	} elseif ($item->long_answer != '') {
 		$item->answer = $item->long_answer;
-	else
+	} else {
 		$item->answer = $item->short_answer;
+	}
 
 	$tplvars = array(
 	'item' => $item,
@@ -47,58 +48,50 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '')
 	'label_answer' => $this->Lang('answer')
 	);
 
-	$funcs->ProcessTemplate($this,'detail.tpl',$tplvars);
-}
-else
-{
-	if (isset($config['default_encoding']) && $config['default_encoding'] != '')
+	$funcs->ProcessTemplate($this, 'detail.tpl', $tplvars);
+} else {
+	if (isset($config['default_encoding']) && $config['default_encoding'] != '') {
 		$enc = strtoupper($config['default_encoding']);
-	else
-		$enc = false;
+	} else {
+		$enc = FALSE;
+	}
 
 	$categories = array();
 
 	$thiscat = '';
-	if (isset($params['cat']) && $params['cat'] != '') // is cat= parameter present?
+	if (isset($params['cat']) && $params['cat'] != '') { // is cat= parameter present?
 		$thiscat = $params['cat'];
-	if ($thiscat == '')	// [re]list all categories
-		$categories = $funcs->GetCategories($this,$id,$returnid,true,true);
-	else
-	{
+	}
+	if ($thiscat == '') {	// [re]list all categories
+		$categories = $funcs->GetCategories($this, $id, $returnid, TRUE, TRUE);
+	} else {
 		$thiscat = ($enc) ?
 			html_entity_decode($thiscat, ENT_QUOTES, $enc):
 			html_entity_decode($thiscat, ENT_QUOTES);
 	 /* Convert string (having a name or id, or possibly ;-separated names
 		and/or ids) into an array of category data, each member an array
 		of some of the tabled data for the corresponding category */
-		$wanted = explode(";",$thiscat);
+		$wanted = explode(";", $thiscat);
 		// now we have an array of categories to display
-		foreach ($wanted as $choice)
-		{
-			if (choice != '')
-			{
+		foreach ($wanted as $choice) {
+			if (choice != '') {
 				$sql = "SELECT * FROM $this->CatTable WHERE ";
 				// find out if we have an id or a name
-				if ((intval($choice)==0) && ($choice<>"0"))
-				{	// it's a string, so assume it's a name
+				if ((intval($choice)==0) && ($choice<>"0")) {	// it's a string, so assume it's a name
 					$sql .= "name=?";
-				}
-				else
-				{	// not a string so assume it's an id
+				} else {	// not a string so assume it's an id
 					$sql .= "category_id=?";
 				}
 				$queryvars = array(trim($choice));
 
-				$rs = $db->Execute($sql,$queryvars);
-				if ($rs)
-				{
-					while ($row = $rs->FetchRow())
-					{
+				$rs = $db->Execute($sql, $queryvars);
+				if ($rs) {
+					while ($row = $rs->FetchRow()) {
 						$one = new stdClass();
 						$one->category_id = $row['category_id'];
 						$one->name = $row['name'];
 						$one->order= $row['vieworder'];
-						$one->category_link = $funcs->GetLink($this,$id,$returnid,$one->name,$one->name);
+						$one->category_link = $funcs->GetLink($this, $id, $returnid, $one->name, $one->name);
 						$categories[$one->category_id] = $one; //lose any previous category with the same index
 					}
 					$rs->Close();
@@ -107,21 +100,18 @@ else
 		}
 	}
 
-	if (isset($params['pattern']))
-	{
+	if (isset($params['pattern'])) {
 		$pattern = ($enc) ?
 			html_entity_decode($params['pattern'], ENT_QUOTES, $enc):
 			html_entity_decode($params['pattern'], ENT_QUOTES);
-		if (substr($pattern,0,1)=='!')
-		{
-			$neg = true;
-			$pattern = substr($pattern,1);
+		if (substr($pattern, 0, 1)=='!') {
+			$neg = TRUE;
+			$pattern = substr($pattern, 1);
+		} else {
+			$neg = FALSE;
 		}
-		else
-			$neg = false;
 
-		if (!function_exists('fnmatch'))
-		{
+		if (!function_exists('fnmatch')) {
 			function fnmatch($pattern, $string, $flags)
 			{
 				return @preg_match(
@@ -129,36 +119,33 @@ else
 				array('*' => '.*', '?' => '.?')) . '$/i', $string);
 			}
 		}
+	} else {
+		$pattern = FALSE;
 	}
-	else
-		$pattern = false;
 
-	if (isset($params['regex']))
-	{
+	if (isset($params['regex'])) {
 		$regex = ($enc) ?
 			html_entity_decode($params['regex'], ENT_QUOTES, $enc):
 			html_entity_decode($params['regex'], ENT_QUOTES);
-		if (substr($regex,0,1)=='!')
-		{
-			$negr = true;
-			$regex = substr($regex,1);
+		if (substr($regex, 0, 1)=='!') {
+			$negr = TRUE;
+			$regex = substr($regex, 1);
+		} else {
+			$negr = FALSE;
 		}
-		else
-			$negr = false;
+	} else {
+		$regex= FALSE;
 	}
-	else
-		$regex= false;
 
 	$tplvars = array();
-	$sq = $this->GetPreference('short_question', true);
-	$sa = $this->GetPreference('short_answer', true);
+	$sq = $this->GetPreference('short_question', TRUE);
+	$sa = $this->GetPreference('short_answer', TRUE);
 	$multi = (count($categories) > 1);
 	$cc = 1; //div id counter
 
 	// populate questions for the categories
-	foreach ($categories as $indx => $category)
-	{
-	 /* Construct an array of objects, one member for each of the active
+	foreach ($categories as $indx => $category) {
+		/* Construct an array of objects, one member for each of the active
 		questions in the specified category, and set the array as the
 		->items parameter of $category object. Each non-empty category
 		will then have the following parameters:
@@ -178,44 +165,41 @@ else
 			divid	//id for answer div, N or C.N
 		*/
 		$sql = "SELECT * FROM $this->ItemTable WHERE category_id=? AND active=1 ORDER BY vieworder ASC";
-		$rs = $db->Execute($sql,array($category->category_id));
-		if ($rs)
-		{
+		$rs = $db->Execute($sql, array($category->category_id));
+		if ($rs) {
 			$qc = 1; //div id counter
 			$items = array();
-			while ($row = $rs->FetchRow())
-			{
-				if ($sq)
-				{
+			while ($row = $rs->FetchRow()) {
+				if ($sq) {
 					$s = $row['short_question'];
-					if ($s == '') $s = $row['long_question'];
-				}
-				else
-				{
+					if ($s == '') {
+						$s = $row['long_question'];
+					}
+				} else {
 					$s = $row['long_question'];
-					if ($s == '') $s = $row['short_question'];
+					if ($s == '') {
+						$s = $row['short_question'];
+					}
 				}
 
-				if ($pattern)
-				{
-					if (fnmatch($pattern, $s, FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD) != false)
-					{
-						if ($neg)
+				if ($pattern) {
+					if (fnmatch($pattern, $s, FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD) != FALSE) {
+						if ($neg) {
 							continue;
-					}
-					elseif (!$neg)
+						}
+					} elseif (!$neg) {
 						continue;
+					}
 				}
 
-				if ($regex)
-				{
-					if (preg_match('/'.$regex.'/',$s) !== false)
-					{
-						if ($negr)
+				if ($regex) {
+					if (preg_match('/'.$regex.'/', $s) !== FALSE) {
+						if ($negr) {
 							continue;
-					}
-					elseif (!$negr)
+						}
+					} elseif (!$negr) {
 						continue;
+					}
 				}
 
 				$one = new stdClass();
@@ -227,29 +211,29 @@ else
 				$one->category = $category->name;
 				$one->question = $s;
 
-				if ($sa)
-				{
+				if ($sa) {
 					$s = $row['short_answer'];
-					if ($s == '') $s = $row['long_answer'];
-				}
-				else
-				{
+					if ($s == '') {
+						$s = $row['long_answer'];
+					}
+				} else {
 					$s = $row['long_answer'];
-					if ($s == '') $s = $row['short_answer'];
+					if ($s == '') {
+						$s = $row['short_answer'];
+					}
 				}
-				$one->answer = $funcs->ProcessTemplateFromData($this,$s,$tplvars);
-				$one->itemlink = $funcs->GetLink($this,$id,$returnid,strip_tags($row['short_question']),'', $row['item_id']);
+				$one->answer = $funcs->ProcessTemplateFromData($this, $s, $tplvars);
+				$one->itemlink = $funcs->GetLink($this, $id, $returnid, strip_tags($row['short_question']), '', $row['item_id']);
 				$items[] = $one;
 			}
 			$rs->Close();
 
-			if (count($items) > 0)
-			{
+			if (count($items) > 0) {
 				$category->items = $items;
 				$cc++;
+			} else { //if category is empty, ignore it
+				unset($categories[$indx]);
 			}
-			else //if category is empty, ignore it
-				unset ($categories[$indx]);
 		}
 	}
 
@@ -257,38 +241,32 @@ else
 	$numcat = count($categories);
 	$tplvars['catcount'] = $numcat;
 
-	if ($numcat > 0 && $this->GetPreference('use_jquery', true))
-	{
-		if ($numcat == 1)
-		{
+	if ($numcat > 0 && $this->GetPreference('use_jquery', TRUE)) {
+		if ($numcat == 1) {
 			//don't want 1-X for a single category
 			$first = reset($categories);
 			$qc = 1; //div id counter
-			foreach($first->items as &$one)
-			{
+			foreach ($first->items as &$one) {
 				$one->divid = $qc;
 				$qc++;
 			}
 			unset($one);
 		}
 	
-		$fn = cms_join_path(dirname(__FILE__),'include','jquery-faq.js');
+		$fn = cms_join_path(dirname(__FILE__), 'include', 'jquery-faq.js');
 		$jq = ''.@file_get_contents($fn);
 		//generalise jquery lib from the default "jquery.min.js"
-		$wpat = cms_join_path('lib','jquery','js','jquery*.min.js');
-		$pat = cms_join_path('lib','jquery','js','jquery.min.js');
-		foreach (glob ($wpat) as $filepath)
-		{
+		$wpat = cms_join_path('lib', 'jquery', 'js', 'jquery*.min.js');
+		$pat = cms_join_path('lib', 'jquery', 'js', 'jquery.min.js');
+		foreach (glob($wpat) as $filepath) {
 			$jq = str_replace($pat, $filepath, $jq);
 			break;
 		}
 		$tplvars['jquery'] = $jq;
-	}
-	else
+	} else {
 		$tplvars['noitems'] = $this->Lang('noitems');
+	}
 
 	// Display the populated template
-	$funcs->ProcessTemplate($this,'overview.tpl',$tplvars);
+	$funcs->ProcessTemplate($this, 'overview.tpl', $tplvars);
 }
-
-?>
