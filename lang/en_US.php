@@ -17,7 +17,7 @@ $lang['upgraded'] = 'upgraded to version %s';
 $lang['delgrp_confirm'] = 'Are you sure you want to delete category \\\'%s\\\'';
 $lang['delitm_confirm'] = 'Are you sure you want to delete this question:\n %s';
 $lang['delselgrp_confirm'] = 'Are you sure you want to delete selected categories?';
-$lang['delselitm_confirm'] = 'Are you sure you want to delete selected questions?';
+$lang['delselitm_confirm'] = 'Are you sure you want to delete selected question(s)?';
 
 $lang['activate']		= 'Activate';
 $lang['activateselitm']	= 'toggle activation of selected questions';
