@@ -223,8 +223,8 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	public function ProcessTemplateFromData(&$mod, $data, $tplvars)
 	{
 		global $smarty;
+		$smarty->assign($tplvars);
 		if ($mod->before20) {
-			$smarty->assign($tplvars);
 			return $mod->ProcessTemplateFromData($data);
 		} else {
 			$tpl = $smarty->CreateTemplate('eval:'.$data, NULL, NULL, $smarty, $tplvars);
