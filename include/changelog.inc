@@ -63,4 +63,9 @@
   <li>Admin UI polish</li>
  </ul>
 </li>
+<li>Version 1.2.1 30 March 2017
+ <ul>
+  <li>CMSMS2 fixes</li>
+ </ul>
+</li>
 </ul>
