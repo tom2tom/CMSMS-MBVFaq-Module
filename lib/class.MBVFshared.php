@@ -23,7 +23,11 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 		$row = $db->GetRow($sql, array($item_id));
 		if ($row) {
 			if ($frontend) {
-				$smarty = cmsms()->GetSmarty();
+				if ($mod->before20) {
+					global $smarty;
+				} else {
+					$smarty = $mod->GetActionTemplateObject();
+				}
 			}
 			$item->item_id = $row['item_id'];
 			$item->category_id = $row['category_id'];
@@ -192,9 +196,13 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	*/
 	public function ProcessTemplate(&$mod, $tplname, $tplvars, $cache=TRUE)
 	{
-		global $smarty;
 		if ($mod->before20) {
-			$smarty->assign($tplvars);
+			global $smarty;
+		} else {
+			$smarty = $mod->GetActionTemplateObject();
+		}
+		$smarty->assign($tplvars);
+		if ($mod->oldtemplates) {
 			echo $mod->ProcessTemplate($tplname);
 		} else {
 			if ($cache) {
@@ -222,9 +230,13 @@ LEFT JOIN $mod->UserTable U ON I.owner = U.user_id WHERE item_id=?";
 	*/
 	public function ProcessTemplateFromData(&$mod, $data, $tplvars)
 	{
-		global $smarty;
-		$smarty->assign($tplvars);
 		if ($mod->before20) {
+			global $smarty;
+		} else {
+			$smarty = $mod->GetActionTemplateObject();
+		}
+		$smarty->assign($tplvars);
+		if ($mod->oldtemplates) {
 			return $mod->ProcessTemplateFromData($data);
 		} else {
 			$tpl = $smarty->CreateTemplate('eval:'.$data, NULL, NULL, $smarty, $tplvars);

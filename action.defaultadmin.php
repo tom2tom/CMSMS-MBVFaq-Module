@@ -69,8 +69,10 @@ $tplvars['tabs_header'] = $this->StartTabHeaders().
  $this->SetTabHeader('groups', $this->Lang('categories'), $seetab1).
  $this->SetTabHeader('settings', $this->Lang('settings'), $seetab2).
  $this->EndTabHeaders().$this->StartTabContent();
+
+//workaround CMSMS2 crap 'auto-end', EndTab() & EndTabContent() before [1st] StartTab()
+$tplvars['end_tab'] = $this->EndTab();
 $tplvars['tabs_footer'] = $this->EndTabContent();
-$tplvars['end_tab'] = $this->EndTab(); //on CMSMS 2+, MUST be after EndTabContent()
 
 //QUESTIONS TAB
 $tplvars['startform1'] = $this->CreateFormStart($id, 'processitems', $returnid);
