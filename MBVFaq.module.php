@@ -23,13 +23,15 @@ class MBVFaq extends CMSModule
 	public $CatTable;
 	public $ItemTable;
 	public $UserTable;
+	public $before111;
+	public $before20;
+	public $oldtemplates;
+
 	protected $PermAdminName = 'MBVFaq Admin';
 	protected $PermAddName = 'MBVFaq Add';
 	protected $PermModName = 'MBVFaq Modify';
 	protected $PermDelName = 'MBVFaq Delete';
 	protected $PermSeeName = 'MBVFaq View';
-	public $before111;
-	public $before20;
 
 	public function __construct()
 	{
@@ -46,6 +48,7 @@ class MBVFaq extends CMSModule
 		global $CMS_VERSION;
 		$this->before111 = (version_compare($CMS_VERSION, '1.11') < 0);
 		$this->before20 = (version_compare($CMS_VERSION, '2.0') < 0);
+		$this->oldtemplates = $this->before20 || 1; //TODO
 	}
 
 	public function AllowAutoInstall()
@@ -83,7 +86,7 @@ class MBVFaq extends CMSModule
 
 	public function GetVersion()
 	{
-		return '1.2';
+		return '1.2.1';
 	}
 
 	public function GetAuthor()
