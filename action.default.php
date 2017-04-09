@@ -252,8 +252,8 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 			}
 			unset($one);
 		}
-	
-		$fn = cms_join_path(dirname(__FILE__), 'include', 'jquery-faq.js');
+
+		$fn = cms_join_path(dirname(__FILE__), 'lib', 'js', 'jquery-faq.js');
 		$jq = ''.@file_get_contents($fn);
 		//generalise jquery lib from the default "jquery.min.js"
 		$wpat = cms_join_path('lib', 'jquery', 'js', 'jquery*.min.js');

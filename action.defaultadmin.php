@@ -590,7 +590,7 @@ EOS;
 EOS;
 
 	$tplvars['jsincs'] =
-		'<script type="text/javascript" src="'.$this->GetModuleURLPath().'/include/jquery.tablednd.min.js"></script>';
+		'<script type="text/javascript" src="'.$this->GetModuleURLPath().'/lib/js/jquery.tablednd.min.js"></script>';
 }
 
 if ($jsloads) {

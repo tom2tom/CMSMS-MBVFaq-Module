@@ -5,28 +5,42 @@
 #----------------------------------------------------------------------
 # See file MBVFaq.module.php for full details of copyright, licence, etc.
 #----------------------------------------------------------------------
+function rmdir_recursive($dir)
+{
+	foreach(scandir($dir) as $file) {
+		if (!($file === '.' || $file === '..')) {
+			$fp = $dir.DIRECTORY_SEPARATOR.$file;
+			if (is_dir($fp)) {
+				rmdir_recursive($fp);
+			} else {
+ 				@unlink($fp);
+			}
+		}
+	}
+	rmdir($dir);
+}
 
 switch ($oldversion) {
-case "0.1.0":
+ case '0.1.0':
 	//convert and add db fields
 	$dict = NewDataDictionary($db);
-	$fields = "
+	$fields = '
 category_id I(4) KEY,
 number I(6),
 owner I(4) NOTNULL DEFAULT 0
-";
+';
 	$sqlarray = $dict->AlterColumnSQL($this->CatTable, $fields);
 	$dict->ExecuteSQLArray($sqlarray, FALSE);
 
-	$fields = "
+	$fields = '
 item_id I(6) KEY,
 category_id I(4),
 owner I(4),
-create_date ".CMS_ADODB_DT.",
-last_modified_date ".CMS_ADODB_DT.",
+create_date '.CMS_ADODB_DT.',
+last_modified_date '.CMS_ADODB_DT.',
 active L NOTNULL DEFAULT 0,
 number I(6)
-";
+';
 	$sqlarray = $dict->AlterColumnSQL($this->ItemTable, $fields);
 	$dict->ExecuteSQLArray($sqlarray, FALSE);
 
@@ -43,7 +57,7 @@ number I(6)
 	$this->CreatePermission($this->PermModName, $this->Lang('perm_modify'));
 	$this->CreatePermission($this->PermDelName, $this->Lang('perm_delete'));
 	$this->CreatePermission($this->PermSeeName, $this->Lang('perm_view'));
-case "0.3.0":
+ case '0.3.0':
 	//remove files now renamed
 	$files = glob(cms_join_path(dirname(__FILE__), 'lib', 'MBVF*.php'));
 	foreach ($files as $file) {
@@ -65,9 +79,9 @@ case "0.3.0":
 			unlink($file);
 		}
 	}
-case "0.4.0":
-case "0.4.1":
-case "0.4.2":
+ case '0.4.0':
+ case '0.4.1':
+ case '0.4.2':
 	//rename db fields
 	if (!isset($dict)) {
 		$dict = NewDataDictionary($db);
@@ -94,10 +108,19 @@ case "0.4.2":
 	$this->SetPreference('short_question', $d);
 	$this->SetPreference('use_jquery', $e);
 	$this->SetPreference('ignore_click', $f);
-case "0.5.0":
-	//remove redundant file
+ case '0.5.0':
+	//redundant file
 	$file = cms_join_path(dirname(__FILE__), 'include', 'module_funcs.js');
 	if (is_file($file)) {
 		unlink($file);
+	}
+ case '1.0':
+ case '1.0.1':
+ case '1.1':
+ case '1.2':
+	//redundant directory
+	$file = cms_join_path(dirname(__FILE__), 'include');
+	if (is_dir($file)) {
+		rmdir_recursive($file);
 	}
 }
