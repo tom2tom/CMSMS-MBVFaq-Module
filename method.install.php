@@ -14,19 +14,19 @@ $dict = NewDataDictionary($db);
  'vieworder' is used for display-order, since 'order' is a reserved SQL word
  'owner' is uid of the answerer of the question
 */
-$fields = "
-	item_id I(6) KEY,
-	category_id I(4),
-	short_question C(255),
-	long_question X,
-	short_answer C(255),
-	long_answer X,
-	create_date ".CMS_ADODB_DT.",
-	last_modified_date ".CMS_ADODB_DT.",
-	active L NOTNULL DEFAULT 0,
-	vieworder I(6),
-	owner I(4)
-";
+$fields = '
+item_id I(6) KEY,
+category_id I(4),
+short_question C(255),
+long_question X2,
+short_answer C(255),
+long_answer X2,
+create_date DT,
+last_modified_date DT,
+active I(1) NOTNULL DEFAULT 0,
+vieworder I(6),
+owner I(4)
+';
 $sqlarray = $dict->CreateTableSQL($this->ItemTable, $fields, $taboptarray);
 if ($sqlarray == FALSE) {
 	return FALSE;
@@ -41,12 +41,12 @@ $db->CreateSequence($this->ItemTable.'_seq');
  categories table schema:
  'owner' is the uid of the category's assigned owner, or 0 if there's no such assignment
 */
-$fields = "
-	category_id I(4) KEY,
-	name C(255),
-	vieworder I(6),
-	owner I(4) NOTNULL DEFAULT 0
-";
+$fields = '
+category_id I(4) KEY,
+name C(255),
+vieworder I(6),
+owner I(4) NOTNULL DEFAULT 0
+';
 $sqlarray = $dict->CreateTableSQL($this->CatTable, $fields, $taboptarray);
 if ($sqlarray == FALSE) {
 	return FALSE;

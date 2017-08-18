@@ -36,9 +36,9 @@ owner I(4) NOTNULL DEFAULT 0
 item_id I(6) KEY,
 category_id I(4),
 owner I(4),
-create_date '.CMS_ADODB_DT.',
-last_modified_date '.CMS_ADODB_DT.',
-active L NOTNULL DEFAULT 0,
+create_date DT,
+last_modified_date DT,
+active I(1) NOTNULL DEFAULT 0,
 number I(6)
 ';
 	$sqlarray = $dict->AlterColumnSQL($this->ItemTable, $fields);
