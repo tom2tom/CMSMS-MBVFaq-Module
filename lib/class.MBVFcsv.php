@@ -81,11 +81,11 @@ class MBVFcsv
 LEFT JOIN $mod->CatTable C ON I.category_id = C.category_id
 LEFT JOIN $mod->UserTable U ON I.owner = U.user_id
 WHERE I.item_id=? ORDER BY I.vieworder ASC";
-		$rs = $mod->dbHandle->Execute($sql, array($item_id));
-		if ($rs) {	//writing .csv file, so strip commas from all content
+		$rst = $mod->dbHandle->Execute($sql, array($item_id));
+		if ($rst && !$rst->EOF) {	//writing .csv file, so strip commas from all content
 			$s = ',';
 			$r = '&#44;';
-			$row = $rs->FetchRow();
+			$row = $rst->FetchRow();
 			$outstr .= str_replace($s, $r, $row['name']);
 			$outstr .= ','.str_replace($s, $r, $row['short_question']);
 			$outstr .= ','.str_replace($s, $r, $row['long_question']);
@@ -101,7 +101,7 @@ WHERE I.item_id=? ORDER BY I.vieworder ASC";
 			$outstr .= ($row['active'] > 0) ? ',true':',false';
 			$outstr .= "\n"; //TODO conform newline to browser platform
 
-			$rs->Close();
+			$rst->Close();
 		}
 		return $outstr;
 	}
@@ -113,13 +113,13 @@ WHERE I.item_id=? ORDER BY I.vieworder ASC";
 LEFT JOIN $mod->CatTable C ON I.category_id = C.category_id
 LEFT JOIN $mod->UserTable U ON I.owner = U.user_id
 WHERE I.category_id=? ORDER BY I.vieworder ASC";
-		$rs = $mod->dbHandle->Execute($sql, array($category_id));
-		if ($rs) {
+		$rst = $mod->dbHandle->Execute($sql, array($category_id));
+		if ($rst && !$rst->EOF) {
 			// the db-query was successful
 			//writing .csv file, so strip commas from all content
 			$s = ',';
 			$r = '&#44;';
-			while ($row = $rs->FetchRow()) {
+			while ($row = $rst->FetchRow()) {
 				$outstr .= str_replace($s, $r, $row['name']);
 				$outstr .= ','.str_replace($s, $r, $row['short_question']);
 				$outstr .= ','.str_replace($s, $r, $row['long_question']);
@@ -135,7 +135,7 @@ WHERE I.category_id=? ORDER BY I.vieworder ASC";
 				$outstr .= ($row['active'] > 0) ? ',true':',false';
 				$outstr .= "\r\n"; //TODO conform to browser platform
 			}
-			$rs->Close();
+			$rst->Close();
 		}
 		return $outstr;
 	}

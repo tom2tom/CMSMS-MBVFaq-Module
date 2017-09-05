@@ -108,16 +108,16 @@ LEFT JOIN $this->UserTable U ON I.owner = U.user_id
 LEFT JOIN $this->CatTable C ON I.category_id = C.category_id WHERE I.category_id IN ($wanted)
 ORDER BY C.vieworder,I.vieworder ASC";
 
-$rs = $db->Execute($sql);
-if ($rs) {
+$rst = $db->Execute($sql);
+if ($rst) {
 	$count = 0;
 	$previd = -10;
 
-	while ($row = $rs->FetchRow()) {
-		$thisid 			= (int)$row['item_id'];
+	while ($row = $rst->FetchRow()) {
+		$thisid = (int)$row['item_id'];
 		$one = new stdClass();
 
-		$one->id		= $thisid; //may be hidden
+		$one->id = $thisid; //may be hidden
 		$neat = $this->ellipsize(strip_tags($row['short_question']), 40, 0.5);
 		if ($mod) {
 			$one->item		= $this->CreateLink($id, 'openitem', $returnid, $neat,
@@ -177,7 +177,7 @@ if ($rs) {
 		$items[] = $one;
 		$count++;
 	}
-	$rs->Close();
+	$rst->Close();
 }
 
 if ($mod) {
@@ -277,8 +277,8 @@ if ($mod) {
 	LEFT JOIN $this->UserTable U ON C.owner = U.user_id ORDER BY C.vieworder ASC";
 }
 
-$rs = $db->Execute($sql);
-if ($rs) {
+$rst = $db->Execute($sql);
+if ($rst && !$rst->EOF) {
 	if ($mod && $owned) {
 		//find all valid owners
 		$owners = array('&lt;'.$this->Lang('none').'&gt;' => 0);
@@ -299,23 +299,23 @@ WHERE ";
 P.permission_name IN('$this->PermAddName','$this->PermAdminName','$this->PermModName')
 ORDER BY U.last_name,U.first_name";
 
-		$rs2 = $db->Execute($sql);
-		if ($rs2) {
-			while ($row = $rs2->FetchRow()) {
+		$rst2 = $db->Execute($sql);
+		if ($rst2) {
+			while ($row = $rst2->FetchRow()) {
 				$name = trim($row['first_name'].' '.$row['last_name']);
 				if ($name == '') {
 					$name = trim($row['username']);
 				}
 				$owners[$name] = (int)$row['user_id'];
 			}
-			$rs2->Close();
+			$rst2->Close();
 		}
 	}
 
 	$count = 0;
 	$previd	= -10;
 
-	while ($row = $rs->FetchRow()) {
+	while ($row = $rst->FetchRow()) {
 		$thisid = (int)$row['category_id'];
 
 		$one = new stdClass();
@@ -369,7 +369,7 @@ ORDER BY U.last_name,U.first_name";
 		$groups[] = $one;
 		$count++;
 	}
-	$rs->Close();
+	$rst->Close();
 }
 
 if ($mod && $extracat) {

@@ -24,8 +24,8 @@ class MBVFajax
 LEFT JOIN $mod->UserTable U ON I.owner = U.user_id
 LEFT JOIN $mod->CatTable C ON I.category_id = C.category_id
 WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
-		$rs = $mod->dbHandle->Execute($sql);
-		if ($rs) {
+		$rst = $mod->dbHandle->Execute($sql);
+		if ($rst && !$rst->EOF) {
 			$pdev = $mod->CheckPermission('Modify Any Page');
 			if ($padm) {
 				$pdel = TRUE;
@@ -69,7 +69,7 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 
 			$items = array();
 
-			while ($row = $rs->FetchRow()) {
+			while ($row = $rst->FetchRow()) {
 				$thisid 			= (int)$row['item_id'];
 				$one = new stdClass();
 				$one->id			= $thisid;
@@ -120,7 +120,7 @@ WHERE I.category_id IN ($wanted) ORDER BY C.vieworder, I.vieworder ASC";
 
 				$items[] = $one;
 			}
-			$rs->Close();
+			$rst->Close();
 
 			if ($items) {
 				$tplvars = array(

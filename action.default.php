@@ -84,9 +84,9 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 				}
 				$queryvars = array(trim($choice));
 
-				$rs = $db->Execute($sql, $queryvars);
-				if ($rs) {
-					while ($row = $rs->FetchRow()) {
+				$rst = $db->Execute($sql, $queryvars);
+				if ($rst) {
+					while ($row = $rst->FetchRow()) {
 						$one = new stdClass();
 						$one->category_id = $row['category_id'];
 						$one->name = $row['name'];
@@ -94,7 +94,7 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 						$one->category_link = $funcs->GetLink($this, $id, $returnid, $one->name, $one->name);
 						$categories[$one->category_id] = $one; //lose any previous category with the same index
 					}
-					$rs->Close();
+					$rst->Close();
 				}
 			}
 		}
@@ -165,11 +165,11 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 			divid	//id for answer div, N or C.N
 		*/
 		$sql = "SELECT * FROM $this->ItemTable WHERE category_id=? AND active=1 ORDER BY vieworder ASC";
-		$rs = $db->Execute($sql, array($category->category_id));
-		if ($rs) {
+		$rst = $db->Execute($sql, array($category->category_id));
+		if ($rst && !$rst->EOF) {
 			$qc = 1; //div id counter
 			$items = array();
-			while ($row = $rs->FetchRow()) {
+			while ($row = $rst->FetchRow()) {
 				if ($sq) {
 					$s = $row['short_question'];
 					if ($s == '') {
@@ -226,7 +226,7 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 				$one->itemlink = $funcs->GetLink($this, $id, $returnid, strip_tags($row['short_question']), '', $row['item_id']);
 				$items[] = $one;
 			}
-			$rs->Close();
+			$rst->Close();
 
 			if (count($items) > 0) {
 				$category->items = $items;
