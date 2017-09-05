@@ -103,6 +103,6 @@ WHERE category_id IN (".
 		str_repeat('?,', count($dropids)-1)."?)";
 		$qargs = $dropids;
 		array_unshift($qargs, $tocid);
-		$res = $mod->dbHandle->Execute($sql, $qargs);
+		$mod->dbHandle->Execute($sql, $qargs); //no viable success check after UPDATE
 	}
 }
