@@ -166,78 +166,84 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 		*/
 		$sql = "SELECT * FROM $this->ItemTable WHERE category_id=? AND active=1 ORDER BY vieworder ASC";
 		$rst = $db->Execute($sql, array($category->category_id));
-		if ($rst && !$rst->EOF) {
-			$qc = 1; //div id counter
-			$items = array();
-			while ($row = $rst->FetchRow()) {
-				if ($sq) {
-					$s = $row['short_question'];
-					if ($s == '') {
-						$s = $row['long_question'];
-					}
-				} else {
-					$s = $row['long_question'];
-					if ($s == '') {
+		if ($rst) {
+			if (!$rst->EOF) {
+				$qc = 1; //div id counter
+				$items = array();
+				while ($row = $rst->FetchRow()) {
+					if ($sq) {
 						$s = $row['short_question'];
+						if ($s == '') {
+							$s = $row['long_question'];
+						}
+					} else {
+						$s = $row['long_question'];
+						if ($s == '') {
+							$s = $row['short_question'];
+						}
 					}
-				}
 
-				if ($pattern) {
-					if (fnmatch($pattern, $s, FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD) != FALSE) {
-						if ($neg) {
+					if ($pattern) {
+						if (fnmatch($pattern, $s, FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD) != FALSE) {
+							if ($neg) {
+								continue;
+							}
+						} elseif (!$neg) {
 							continue;
 						}
-					} elseif (!$neg) {
-						continue;
 					}
-				}
 
-				if ($regex) {
-					if (preg_match('/'.$regex.'/', $s) !== FALSE) {
-						if ($negr) {
+					if ($regex) {
+						if (preg_match('/'.$regex.'/', $s) !== FALSE) {
+							if ($negr) {
+								continue;
+							}
+						} elseif (!$negr) {
 							continue;
 						}
-					} elseif (!$negr) {
-						continue;
 					}
-				}
 
-				$one = new stdClass();
-				$one->divid = ($multi) ? $cc.'-'.$qc : $qc; //jQuery can't cope with period in id name
-				$qc++;
+					$one = new stdClass();
+					$one->divid = ($multi) ? $cc.'-'.$qc : $qc; //jQuery can't cope with period in id name
+					$qc++;
 
-				$one->item_id = $row['item_id'];
-				$one->category_id = $row['category_id'];
-				$one->category = $category->name;
-				$one->question = $s;
+					$one->item_id = $row['item_id'];
+					$one->category_id = $row['category_id'];
+					$one->category = $category->name;
+					$one->question = $s;
 
-				if ($sa) {
-					$s = $row['short_answer'];
-					if ($s == '') {
-						$s = $row['long_answer'];
-					}
-				} else {
-					$s = $row['long_answer'];
-					if ($s == '') {
+					if ($sa) {
 						$s = $row['short_answer'];
+						if ($s == '') {
+							$s = $row['long_answer'];
+						}
+					} else {
+						$s = $row['long_answer'];
+						if ($s == '') {
+							$s = $row['short_answer'];
+						}
 					}
+					$one->answer = $funcs->ProcessTemplateFromData($this, $s, $tplvars);
+					$one->itemlink = $funcs->GetLink($this, $id, $returnid, strip_tags($row['short_question']), '', $row['item_id']);
+					$items[] = $one;
 				}
-				$one->answer = $funcs->ProcessTemplateFromData($this, $s, $tplvars);
-				$one->itemlink = $funcs->GetLink($this, $id, $returnid, strip_tags($row['short_question']), '', $row['item_id']);
-				$items[] = $one;
-			}
-			$rst->Close();
 
-			if (count($items) > 0) {
-				$category->items = $items;
-				$cc++;
-			} else { //if category is empty, ignore it
+				if (count($items) > 0) {
+					$category->items = $items;
+					$cc++;
+				} else { //if category is empty, ignore it
+					unset($categories[$indx]);
+				}
+			} else {
 				unset($categories[$indx]);
 			}
+			$rst->Close();
+		} else {
+			unset($categories[$indx]);
 		}
 	}
 
-	$tplvars['cats'] = $categories;
+	$tplvars['cats'] = array_values($categories);
 	$numcat = count($categories);
 	$tplvars['catcount'] = $numcat;
 
