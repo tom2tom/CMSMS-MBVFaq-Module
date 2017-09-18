@@ -57,13 +57,9 @@ class MBVForder
 WHERE item_id IN (".
 		str_repeat('?,', count($selectedids)-1)."?) ORDER BY category_id,short_question,long_question";
 		$res = $mod->dbHandle->GetAssoc($sql, $selectedids);
-		//peel off each vieworder, sort them separately
-//PHP5.5+	$orders = array_column($res, 'vieworder');
-		$orders = array_map(function ($element) {
-			return intval($element[0]);
-		}, $res);
+		$orders = array_values($res);
 		sort($orders, SORT_NUMERIC);
-		$i = 0;
+		$i = 0; //TODO CRAP if not all items are being sorted
 		$sql = "UPDATE $mod->ItemTable SET vieworder=? WHERE item_id=?";
 		foreach ($res as $id=>&$order) {
 			$mod->dbHandle->Execute($sql, array($orders[$i], $id));
