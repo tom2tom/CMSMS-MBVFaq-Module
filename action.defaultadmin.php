@@ -175,7 +175,7 @@ if ($rst) {
 		$one->selected = $this->CreateInputCheckbox($id, 'selitems[]', $thisid, -1);
 
 		$items[] = $one;
-		$count++;
+		++$count;
 	}
 	$rst->Close();
 }
@@ -367,7 +367,7 @@ ORDER BY U.last_name,U.first_name";
 		$one->selected = $this->CreateInputCheckbox($id, 'selgrps[]', $thisid, -1);
 
 		$groups[] = $one;
-		$count++;
+		++$count;
 	}
 	$rst->Close();
 }

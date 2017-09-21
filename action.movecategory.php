@@ -35,21 +35,21 @@ $sql = "UPDATE $this->CatTable SET vieworder=? WHERE category_id=?";
 foreach ($cats as $cid) {
 	if ($cid == $catsdrop[0]) { //the one before the dropper(s)
 		$db->Execute($sql, array($cnum, $cid));
-		$cnum++;
+		++$cnum;
 		foreach ($dodrops as $id) {
 			$db->Execute($sql, array($cnum, $id));
-			$cnum++;
+			++$cnum;
 		}
 	} elseif ($cid == $catsdrop[1] && $catsdrop[0] == 'NULL') { //the one after the dropper(s)
 		foreach ($dodrops as $id) {
 			$db->Execute($sql, array($cnum, $id));
-			$cnum++;
+			++$cnum;
 		}
 		$db->Execute($sql, array($cnum, $cid));
-		$cnum++;
+		++$cnum;
 	} elseif (!in_array($cid, $dodrops)) {
 		$db->Execute($sql, array($cnum, $cid));
-		$cnum++;
+		++$cnum;
 	}
 }
 //re-create & echo contents of questions-table body

@@ -205,7 +205,7 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 
 					$one = new stdClass();
 					$one->divid = ($multi) ? $cc.'-'.$qc : $qc; //jQuery can't cope with period in id name
-					$qc++;
+					++$qc;
 
 					$one->item_id = $row['item_id'];
 					$one->category_id = $row['category_id'];
@@ -230,7 +230,7 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 
 				if (count($items) > 0) {
 					$category->items = $items;
-					$cc++;
+					++$cc;
 				} else { //if category is empty, ignore it
 					unset($categories[$indx]);
 				}
@@ -254,7 +254,7 @@ if (!isset($params['cat']) && isset($params['faq']) && $params['faq'] != '') {
 			$qc = 1; //div id counter
 			foreach ($first->items as &$one) {
 				$one->divid = $qc;
-				$qc++;
+				++$qc;
 			}
 			unset($one);
 		}

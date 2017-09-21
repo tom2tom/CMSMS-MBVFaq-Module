@@ -23,23 +23,23 @@ class MBVForder
 				if ($dropids) {
 					foreach ($dropids as $id) {
 						$mod->dbHandle->Execute($sql, array($qnum, $id));
-						$qnum++;
+						++$qnum;
 					}
 				}
 				$mod->dbHandle->Execute($sql, array($qnum, $qid));
-				$qnum++;
+				++$qnum;
 			} elseif ($num == $afternum) {
 				$mod->dbHandle->Execute($sql, array($qnum, $qid));
-				$qnum++;
+				++$qnum;
 				if ($dropids) {
 					foreach ($dropids as $id) {
 						$mod->dbHandle->Execute($sql, array($qnum, $id));
-						$qnum++;
+						++$qnum;
 					}
 				}
 			} elseif (!$dropids || !in_array($qid, $dropids)) {
 				$mod->dbHandle->Execute($sql, array($qnum, $qid));
-				$qnum++;
+				++$qnum;
 			}
 		}
 	}
@@ -63,7 +63,7 @@ WHERE item_id IN (".
 		$sql = "UPDATE $mod->ItemTable SET vieworder=? WHERE item_id=?";
 		foreach ($res as $id=>&$order) {
 			$mod->dbHandle->Execute($sql, array($orders[$i], $id));
-			$i++;
+			++$i;
 		}
 		unset($order);
 	}
@@ -88,7 +88,7 @@ WHERE category_id IN (".
 		$sql = "UPDATE $mod->CatTable SET vieworder=? WHERE category_id=?";
 		foreach ($res as $id=>&$order) {
 			$mod->dbHandle->Execute($sql, array($orders[$i], $id));
-			$i++;
+			++$i;
 		}
 		unset($order);
 	}
