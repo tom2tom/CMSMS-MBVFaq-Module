@@ -37,7 +37,7 @@ class MBVFaq extends CMSModule
 	{
 		parent::__construct();
 
-		$this->RegisterModulePlugin(TRUE);
+		$this->RegisterModulePlugin();
 
 		$this->dbHandle = cmsms()->GetDb();
 		$pre = cms_db_prefix();
@@ -108,6 +108,15 @@ class MBVFaq extends CMSModule
 	public function IsPluginModule()
 	{
 		return TRUE;
+	}
+
+	public function HasCapability($capability, $params = array())
+	{
+	  switch ($capability) {
+		case CmsCoreCapabilities::PLUGIN_MODULE:
+		  return TRUE;
+	  }
+	  return FALSE;
 	}
 
 	public function HasAdmin()
