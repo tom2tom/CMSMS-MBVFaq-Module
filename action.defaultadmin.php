@@ -519,10 +519,10 @@ $tplvars['idclass'] = $idc;
 
 if ($icnt > 0 || $gcnt > 0) {
 	$t = $this->Lang('error_server');
-	$u = $this->create_url($id, '|X|', '', array('droporder'=>''));
+	$u = $this->create_url($id, 'XVZ', '', array('droporder'=>''));
 	$offs = strpos($u, '?mact=');
 	$u = str_replace('&amp;', '&', substr($u, $offs+1));
-	$up = explode('|X|', $u);
+	$up = explode('XVZ', $u);
 	$jsfuncs[] = <<< EOS
 function dropresponse(data,status)
 {
@@ -548,12 +548,12 @@ EOS;
    var evenclass = 'row2';
    var droprow = $(droprows)[0];
    $(table).find('tbody tr').each(function(){
-	name = odd ? oddclass : evenclass;
-	if (this === droprow){
-	 name = name+'hover';
-	}
-	$(this).removeClass().addClass(name);
-	odd = !odd;
+    name = odd ? oddclass : evenclass;
+    if (this === droprow){
+     name = name+'hover';
+    }
+    $(this).removeClass().addClass(name);
+    odd = !odd;
    });
 
    var act = (table.id=='items') ? 'moveitem':'movecategory';
@@ -563,18 +563,18 @@ EOS;
    curr++;
    var dropcount = droprows.length;
    while (dropcount > 0){
-	droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html();
-	curr++;
-	dropcount--;
+    droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html();
+    curr++;
+    dropcount--;
    }
    droporder = droporder+','+$(allrows[curr]).find('> td.{$idc}:first').html(); //'target' may be 'null'
 
    $.ajax({
-	type: 'POST',
-	url: 'moduleinterface.php',
-	data: '{$up[0]}'+act+'{$up[1]}'+droporder,
-	success: dropresponse,
-	dataType: 'html'
+    type: 'POST',
+    url: 'moduleinterface.php',
+    data: '{$up[0]}'+act+'{$up[1]}'+droporder,
+    success: dropresponse,
+    dataType: 'html'
    });
   }
  }).find('tbody tr').removeAttr('onmouseover').removeAttr('onmouseout')
